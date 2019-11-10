@@ -1,0 +1,110 @@
+{% extends "sshmanager/base.html" %}
+{% load static %}
+
+
+{% block body_inner %}
+
+<!-- Site wrapper -->
+<div class="wrapper">
+  {% block outer_topnavbar%}
+    <nav class="main-header navbar navbar-expand navbar-white navbar-light">
+     {% block inner_topnavbar %}
+        {% include "sshmanager/components/topnavbar/index.html"%}
+      {% endblock%}
+    </nav>
+  {% endblock%}
+
+<aside class="main-sidebar sidebar-dark-primary elevation-4">
+  <a href="../../index3.html" class="brand-link">
+    <img src="{% static "missing.jpg" %}"
+    alt="AdminLTE Logo"
+    class="brand-image img-circle elevation-3"
+    style="opacity: .8">
+    <span class="brand-text font-weight-light">AdminLTE 3</span>
+  </a>
+
+  <div class="sidebar">
+
+    {% block sidebar_user %}
+      {% include "sshmanager/components/sidebar_user/index.html" %}
+    {% endblock %}
+
+  <!-- Sidebar Menu -->
+    <nav class="mt-2">
+      {% block sidebar_menu %}
+        {% include "sshmanager/components/sidebar_menu/index.html" %}
+      {% endblock %}
+    </nav>
+  <!-- /.sidebar-menu -->
+  </div>
+<!-- /.sidebar -->
+</aside>
+
+{% block outer_page %}
+  <div class="content-wrapper">
+
+    <section class="content-header">
+      <div class="container-fluid">
+        <div class="row mb-2">
+          <div class="col-sm-6">
+            {% block content_title %}
+              <h1>Blank Page</h1>
+            {% endblock %}
+          </div>
+          <div class="col-sm-6">
+            <ol class="breadcrumb float-sm-right">
+              <li class="breadcrumb-item"><a href="#">Home</a></li>
+              <li class="breadcrumb-item active">Blank Page</li>
+            </ol>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    {% block outer_content %}
+      <section class="content">
+        {% block inner_content %}
+        <!-- Default box -->
+        <div class="card">
+        <div class="card-header">
+        <h3 class="card-title">Title</h3>
+
+        <div class="card-tools">
+        <button type="button" class="btn btn-tool" data-card-widget="collapse" data-toggle="tooltip" title="Collapse">
+        <i class="fas fa-minus"></i></button>
+        <button type="button" class="btn btn-tool" data-card-widget="remove" data-toggle="tooltip" title="Remove">
+        <i class="fas fa-times"></i></button>
+        </div>
+        </div>
+        <div class="card-body">
+        Start creating your amazing application!
+        </div>
+        <!-- /.card-body -->
+        <div class="card-footer">
+        Footer
+        </div>
+        <!-- /.card-footer-->
+        </div>
+        <!-- /.card -->
+        {% endblock %}
+      </section>
+    {% endblock %}
+  </div>
+{% endblock %}
+  <!-- /.content-wrapper -->
+{% block footer_outer %}
+  {% include "sshmanager/components/footer/index.html" %}
+{% endblock %}
+
+
+<!-- Control Sidebar -->
+<aside class="control-sidebar control-sidebar-dark">
+<!-- Control sidebar content goes here -->
+</aside>
+<!-- /.control-sidebar -->
+</div>
+<!-- ./wrapper -->
+
+
+    {{ block.super }}
+{% endblock %}

@@ -1,0 +1,14 @@
+{% extends "sshmanager/skeleton.html" %}
+{% load static %}
+
+{% block head_inner %}
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="{% static 'main.css' %}" rel="stylesheet"/>
+{% endblock %}
+
+
+{% block body_inner %}
+    {{ block.super }}
+    <script type="text/javascript" src="{% static 'main.js' %}"></script>
+{% endblock %}
