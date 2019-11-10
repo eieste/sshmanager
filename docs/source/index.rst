@@ -1,0 +1,31 @@
+.. sshmanager documentation master file, created by
+   sphinx-quickstart on Sun Nov 10 10:11:56 2019.
+   You can adapt this file completely to your liking, but it should at least
+   contain the root `toctree` directive.
+
+Welcome to sshmanager's documentation!
+======================================
+
+.. toctree::
+   :maxdepth: 1
+   :caption: Contents:
+
+   general/installation
+   general/roadmap
+   general/key-concept
+
+.. toctree::
+   :maxdepth: 1
+   :caption: Code Documentation:
+
+   webportal/account/models
+   webportal/account/views/dashboard
+   webportal/account/views/device
+   webportal/account/views/sshpublickey
+
+Indices and tables
+==================
+
+* :ref:`genindex`
+* :ref:`modindex`
+* :ref:`search`

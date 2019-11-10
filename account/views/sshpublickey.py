@@ -13,6 +13,10 @@ class SSHPublicKeyListView(LoginRequiredMixin, ListView):
     template_name = "account/sshpublickey/sshpublickey_list.html"
     model = SSHPublicKey
 
+    def get_queryset(self):
+        qs = super(SSHPublicKeyListView, self).get_queryset()
+
+        return qs.filter(user=self.request.user)
 
 class SSHPublicKeyCreateView(LoginRequiredMixin, CreateView):
     template_name = "account/sshpublickey/sshpublickey_create.html"

@@ -1,0 +1,4 @@
+sphinxcontrib-mermaid
+sphinx
+django
+sphinx-autobuild

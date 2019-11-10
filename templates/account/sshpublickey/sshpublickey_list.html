@@ -54,6 +54,12 @@
                                     <td>{{ key.name }}</td>
                                     <td><pre>{{ key.fingerprint }}</pre></td>
                                 </tr>
+                            {% empty %}
+                                <tr>
+                                    <td colspan="5" class="text-center">
+                                        {% trans "SSH-Public Keylist is Empty" %}
+                                    </td>
+                                </tr>
                             {% endfor %}
                         </tbody>
                     </table>

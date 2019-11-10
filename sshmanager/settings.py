@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'bootstrap4',
     'host.apps.HostConfig',
     'account.apps.AccountConfig',
     'sshmanager.apps.SSHManagerConfig',
@@ -126,7 +127,10 @@ STATICFILES_DIRS = (
   os.path.join(BASE_DIR, 'static'),
 )
 
-MASTER_USER = 'root'
+"""
+    Username for Administration Account. Groups or Hosts, with reference to this User are Visible to all users
+"""
+MASTER_USERNAME = 'root'
 
 LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = '/'
