@@ -1,0 +1,6 @@
+include README.md
+include LICENSE
+
+graft docs
+graft templates
+graft src
