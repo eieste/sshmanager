@@ -67,3 +67,7 @@ intersphinx_mapping = {
     'django': ('http://django.readthedocs.org/en/latest/', None),
     'python': ('http://docs.python.org/3', None),
 }
+
+
+master_doc = 'index'
+
