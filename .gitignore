@@ -1,4 +1,5 @@
 static/
+!src/static/
 venv/
 node_modules/
 db.sqlite3
