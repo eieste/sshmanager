@@ -2,6 +2,7 @@ from django import forms
 from account.models import SSHPublicKey
 from Crypto.PublicKey import RSA
 from account.models import Device, KeyGroup
+from publish.models import PublishGroup
 
 
 class SSHPublicKeyCreateForm(forms.ModelForm):
@@ -11,9 +12,9 @@ class SSHPublicKeyCreateForm(forms.ModelForm):
         model = SSHPublicKey
 
     def clean_key(self):
-        key_string = self.cleaned_data.get("key")
-        key = RSA.importKey(key_string)
-        return key.export_key('PEM').decode("utf-8")
+        ssh_public_key_string = self.cleaned_data.get("key")
+        ssh_public_key = RSA.importKey(ssh_public_key_string)
+        return ssh_public_key.export_key('PEM').decode("utf-8")
 
 
 class DeviceCreateForm(forms.ModelForm):
@@ -36,3 +37,7 @@ class KeyGroupCreateForm(forms.ModelForm):
     def clean(self):
         self.cleaned_data['name'] = self.cleaned_data["display_name"]
         return self.cleaned_data
+
+
+class AssignPublishGroupToKeyGroupForm(forms.Form):
+  publish_groups = forms.ModelMultipleChoiceField(required=False, queryset=PublishGroup.objects.none())

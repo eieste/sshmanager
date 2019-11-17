@@ -1,22 +1,38 @@
 {% load i18n %}
 
 <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
-    <li class="nav-item has-treeview">
-        <a href="{% url "sshpublickey:list" %}" class="nav-link">
-            <i class="nav-icon fas fa-tachometer-alt"></i>
-            <p>
-                {% trans "Public SSH-Key" %}
-            </p>
-        </a>
-    </li>
-    <li class="nav-item has-treeview">
-        <a href="{% url "device-and-group:list" %}" class="nav-link">
-            <i class="nav-icon fas fa-tachometer-alt"></i>
-            <p>
-                {% trans "Devices" %}
-            </p>
-        </a>
-    </li>
+    {% if not request.user.is_superuser %}
+        <li class="nav-item has-treeview">
+            <a href="{% url "account:sshpublickey:list" %}" class="nav-link">
+                <i class="nav-icon fas fa-tachometer-alt"></i>
+                <p>
+                    {% trans "Public SSH-Key" %}
+                </p>
+            </a>
+        </li>
+    {% endif %}
+    {% if perms.account.add_keygroup or perms.account.add_device or perms.account.view_keygroup or perms.account.view_device %}
+        <li class="nav-item has-treeview">
+            <a href="{% url "account:device-and-keygroup:list" %}" class="nav-link">
+                <i class="nav-icon fas fa-tachometer-alt"></i>
+                <p>
+                    {% trans "Keygroups, Devices" %}
+                </p>
+            </a>
+        </li>
+    {% endif %}
+
+    {% if perms.account.add_publishgroup %}
+        <li class="nav-item has-treeview">
+            <a href="{% url "publish:group:list" %}" class="nav-link">
+                <i class="nav-icon fas fa-tachometer-alt"></i>
+                <p>
+                    {% trans "Publish Group" %}
+                </p>
+            </a>
+        </li>
+    {% endif %}
+
 </ul>
 
 

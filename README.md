@@ -6,6 +6,7 @@
 [![Python 3.7](https://img.shields.io/badge/python-3.7-green.svg)](https://www.python.org/downloads/release/python-360/)
 ![Docker Pulls](https://img.shields.io/docker/pulls/eieste/sshmanager)
 ![PyPI - Downloads](https://img.shields.io/pypi/dm/sshmanager)
+[![Flattr this git repo](http://api.flattr.com/button/flattr-badge-large.png)](https://flattr.com/submit/auto?user_id=eieste&url=https://github.com/eieste/sshmanager&title=sshmanager&language=&tags=github&category=software)
 
 Manage public SSH-Keys for all your devices, and if needed for your team members too
 

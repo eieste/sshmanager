@@ -8,12 +8,12 @@ The user has SSH keys for each device he uses and for each project.
 
 As an example:
 
-+----------------------------------------+-------------------------------------+-------------------------------------+
-| Device: Laptop                         | Device: Desktop PC                  | Device: iPad                        |
-|   * Work                               |   * Work                            |   * Work                            |
-|   * Private                            |   * Private                         |   * Private                         |
-|   * One-million-dollar Idea Project    |   * One-million-dollar Idea Project |   * One-million-dollar Idea Project |
-+----------------------------------------+-------------------------------------+-------------------------------------+
++---------------------------------------+------------------------------------+------------------------------------+
+| Device: Laptop                        | Device: Desktop PC                 | Device: iPad                       |
+|  * Work                               |  * Work                            |  * Work                            |
+|  * Private                            |  * Private                         |  * Private                         |
+|  * One-million-dollar Idea Project    |  * One-million-dollar Idea Project |  * One-million-dollar Idea Project |
++---------------------------------------+------------------------------------+------------------------------------+
 
 One user alone already has 9 SSH keys that have to be managed and named. And each SSH key must be registered on different servers.
 For a company with several users, there are several SSH Keys available.

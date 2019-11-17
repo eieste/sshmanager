@@ -1,4 +1,4 @@
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.views.generic import TemplateView
 
 from account.models import Device, KeyGroup
@@ -6,12 +6,17 @@ from sshmanager.contrib import get_master_user
 
 
 class DeviceAndGroupListView(LoginRequiredMixin, TemplateView):
-    template_name = "account/group/list.html"
+    template_name = "account/device_and_keygroup/list.html"
 
     def get_context_data(self, **kwargs):
         ctx = super(DeviceAndGroupListView, self).get_context_data(**kwargs)
-        ctx["device_list"] = self.request.user.device_set.all() | Device.objects.filter(user=get_master_user())
-        ctx["keygroup_list"] = self.request.user.keygroup_set.all() | KeyGroup.objects.filter(user=get_master_user())
+
+        if self.request.user.has_perm("account.view_device"):
+            ctx["device_list"] = self.request.user.device_set.all() | Device.objects.filter(created_by=get_master_user())
+
+        if self.request.user.has_perm("account.view_keygroup"):
+            ctx["keygroup_list"] = self.request.user.keygroup_set.all() | KeyGroup.objects.filter(created_by=get_master_user())
+
         return ctx
 
 """

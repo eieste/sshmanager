@@ -16,18 +16,19 @@ class SSHPublicKeyListView(LoginRequiredMixin, ListView):
     def get_queryset(self):
         qs = super(SSHPublicKeyListView, self).get_queryset()
 
-        return qs.filter(user=self.request.user)
+        return qs.filter(created_by=self.request.user)
+
 
 class SSHPublicKeyCreateView(LoginRequiredMixin, CreateView):
     template_name = "account/sshpublickey/sshpublickey_create.html"
     model = SSHPublicKey
     form_class = SSHPublicKeyCreateForm
-    success_url = reverse_lazy("sshpublickey:list")
+    success_url = reverse_lazy("account:sshpublickey:list")
 
     def form_valid(self, form):
-        form.instance.user = self.request.user
+        form.instance.created_by = self.request.user
 
-        key = RSA.importKey(form.instance.key)
+        key = RSA.importKey(form.instance.ssh_public_key)
         openssh_key = key.export_key("OpenSSH")
         openssh_key_bytes_string = openssh_key.decode("utf-8").split(" ")
 
@@ -35,6 +36,6 @@ class SSHPublicKeyCreateView(LoginRequiredMixin, CreateView):
 
         dig = hashlib.sha256()
         dig.update(openssh_key_bytes)
-        openssh_fingerprint = base64.b64encode(dig).decode("ascii").replace("=", "")
+        openssh_fingerprint = base64.b64encode(dig.digest()).decode("ascii").replace("=", "")
         form.instance.fingerprint = f"{key.size_in_bits()} SHA265: {openssh_fingerprint}"
         return super(SSHPublicKeyCreateView, self).form_valid(form)

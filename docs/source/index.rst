@@ -13,6 +13,7 @@ Welcome to sshmanager's documentation!
    general/installation
    general/roadmap
    general/key-concept
+   general/real
 
 .. toctree::
    :maxdepth: 1

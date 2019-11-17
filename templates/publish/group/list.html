@@ -1,0 +1,50 @@
+{% extends "sshmanager/page.html" %}
+{% load i18n %}
+
+
+{% block content_title %}
+    <h1>{% trans "Devices and Groups" %}</h1>
+{% endblock %}
+
+{% block inner_content %}
+    {% if perms.account.add_device %}
+        <div class="row">
+
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header">
+                        {% trans "Publish List" %}
+                    </div>
+                    <div class="card-body">
+                        <h5 class="card-title">{% trans "Device Overview" %}</h5>
+                        <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+                        <a href="{% url "publish:group:create" %}" class="btn btn-primary">{% trans "Hinzufügen" %}</a>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">{% trans "Publish Group" %}</h3>
+                    </div>
+                    <div class="card-body table-responsive no-padding">
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th>{% trans "Gruppen Name" %}</th>
+                                    <th>{% trans "Aktion" %}</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for publishgroup in object_list %}
+                                    <tr>
+                                        <td>{{ publishgroup.display_name }}</td>
+                                        <td><a href="{% url "publish:group:detail" publishgroup.pk %}">{% trans "Details" %}</a></td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endif %}
+{% endblock %}
