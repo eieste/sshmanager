@@ -64,6 +64,6 @@ urlpatterns = [
     path('account/', include("account.urls")),
     path('publish/', include("publish.urls", namespace="publish")),
     path('', AccountDashboard.as_view()),
-    path('oauth/redirect', get_authorization),
-    path('oauth', auth_user)
+    #path('oauth/redirect', get_authorization),
+    #path('oauth', auth_user)
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
