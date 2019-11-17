@@ -3,5 +3,5 @@ pycryptodome==3.9.1
 django-bootstrap4
 oauthlib==3.1.0
 requests
-django-avvatar==4.1.0
+django-avatar==4.1.0
 django-impersonate==1.4.1

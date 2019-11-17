@@ -7,7 +7,7 @@ from django.utils.translation import pgettext as _
 
 
 class SSHPublicKeyCreateForm(forms.ModelForm):
-    key_groups = forms.ModelMultipleChoiceField(queryset=KeyGroup.objects.none())
+    key_groups = forms.ModelMultipleChoiceField(queryset=KeyGroup.objects.none(), required=False)
 
     class Meta:
         fields = ("name", "ssh_public_key", "device")

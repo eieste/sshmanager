@@ -18,7 +18,7 @@
                     <div class="card-body">
                         <h5 class="card-title">{% trans "Device Overview" %}</h5>
                         <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-                        <a href="{% url "publish:group:create" %}" class="btn btn-primary">{% trans "Hinzufügen" %}</a>
+                        <a href="{% url "publish:publishgroup:create" %}" class="btn btn-primary">{% trans "Hinzufügen" %}</a>
                     </div>
                 </div>
                 <div class="card">
@@ -37,7 +37,10 @@
                                 {% for publishgroup in object_list %}
                                     <tr>
                                         <td>{{ publishgroup.display_name }}</td>
-                                        <td><a href="{% url "publish:group:detail" publishgroup.pk %}">{% trans "Details" %}</a></td>
+                                        <td>
+                                            <a href="{% url "publish:publishgroup:detail" publishgroup.pk %}">{% trans "Details" %}</a>
+                                            <a href="{% url "publish:publishgroup:delete" publishgroup.pk %}">{% trans "Delete" %}</a>
+                                        </td>
                                     </tr>
                                 {% endfor %}
                             </tbody>

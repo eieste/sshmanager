@@ -50,7 +50,7 @@ class UserAssignExtension:
 
 
 class PublishGroupDetailView(LoginRequiredMixin, DetailView, UserAssignExtension):
-    template_name = "publish/group/detail.html"
+    template_name = "publish/publishgroup/publishgroup_detail.html"
     model = PublishGroup
     form_list = ["user_assign_form"]
 
@@ -76,4 +76,4 @@ class PublishGroupDetailView(LoginRequiredMixin, DetailView, UserAssignExtension
             if not every_form_valid:
                 return self.get(*args, **kwargs)
         else:
-            return redirect("publish:group:list")
+            return redirect("publish:publishgroup:list")

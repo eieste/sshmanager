@@ -26,7 +26,7 @@ keygroup_urlpattern = ([
 device_and_keygroup_urlpattern = ([
     path("list", DeviceAndGroupListView.as_view(), name="list"),
     path("device/", include(device_urlpattern, namespace="device")),
-    path("group/", include(keygroup_urlpattern, namespace="group"))
+    path("publishgroup/", include(keygroup_urlpattern, namespace="publishgroup"))
 ], "device-and-keygroup")
 
 urlpatterns = [

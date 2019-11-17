@@ -19,8 +19,7 @@
               <div class="modal-footer">
                 <form method="POST" action="">
                     {% csrf_token %}
-
-                    <button type="button" class="btn btn-default pull-left" data-dismiss="modal">{% trans "Cancle" context "SSH-PublicKey Delete Cancle button "%}</button>
+                    <a href="{% url "account:sshpublickey:detail" object.pk %}" class="btn btn-default pull-left" data-dismiss="modal">{% trans "Cancle" context "SSH-PublicKey Delete Cancle button "%}</a>
                     <button type="submit" class="btn btn-danger">{% trans "Delete" context "KeyGroup delete Button" %}</button>
                 </form>
 

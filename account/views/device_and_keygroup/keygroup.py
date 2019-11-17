@@ -4,7 +4,9 @@ from django.views.generic import CreateView, DetailView, DeleteView
 
 from account.forms import KeyGroupCreateForm, AssignPublishGroupToKeyGroupForm
 from account.models import KeyGroup
-from publish.models import PublishGroup
+from publish.models import PublishGroup, PublishGroupToKeyGroup
+from django.shortcuts import redirect
+from django.urls import reverse_lazy
 
 
 class KeyGroupDeleteView(LoginRequiredMixin, PermissionRequiredMixin, DeleteView):
@@ -19,7 +21,7 @@ class KeyGroupCreateView(LoginRequiredMixin, PermissionRequiredMixin, CreateView
     template_name = "account/device_and_keygroup/keygroup/keygroup_create.html"
     model = KeyGroup
     form_class = KeyGroupCreateForm
-    success_url = reverse_lazy("account:device-and-keygroup:group:list")
+    success_url = reverse_lazy("account:device-and-keygroup:list")
 
     def form_valid(self, form):
         form.instance.created_by = self.request.user
@@ -42,6 +44,8 @@ class KeyGroupDetailView(LoginRequiredMixin, DetailView):
 
         if form:
             form.fields["publish_groups"].queryset = PublishGroup.objects.filter(pk__in=self.request.user.usertopublishgroup_set.all().values_list("publish_group", flat=True))
+            form.initial["publish_groups"] = PublishGroup.objects.filter(
+            pk__in=self.request.user.publishgrouptokeygroup_set.all().values_list("publish_group", flat=True))
             ctx["publish_group_form"] = form
 
         return ctx
@@ -50,6 +54,9 @@ class KeyGroupDetailView(LoginRequiredMixin, DetailView):
         self.object = self.get_object()
 
         form = AssignPublishGroupToKeyGroupForm(self.request.POST)
+        form.fields["publish_groups"].queryset = PublishGroup.objects.filter(
+            pk__in=self.request.user.usertopublishgroup_set.all().values_list("publish_group", flat=True))
+
         if form.is_valid():
             return self.form_valid(form)
         else:
@@ -57,4 +64,13 @@ class KeyGroupDetailView(LoginRequiredMixin, DetailView):
             return self.render_to_response(ctx)
 
     def form_valid(self, form):
-        pass
+        publish_groups = form.cleaned_data.get("publish_groups", [])
+
+        for dbitem in self.object.publishgrouptokeygroup_set.all():
+            if dbitem not in publish_groups:
+                dbitem.delete()
+
+        for publish_group in publish_groups:
+            PublishGroupToKeyGroup.objects.get_or_create(publish_group=publish_group, key_group=self.object, created_by=self.request.user)
+
+        return redirect(reverse_lazy("account:device-and-keygroup:keygroup:detail", args=(self.object.pk,)))

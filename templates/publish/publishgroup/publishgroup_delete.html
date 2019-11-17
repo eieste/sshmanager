@@ -31,8 +31,8 @@
                 <form method="POST" action="">
                     {% csrf_token %}
 
-                    <a href="{% url "account:device-and-keygroup:list" %}" class="btn btn-default pull-left" data-dismiss="modal">{% trans "Cancle" context "KeyGroup Delete Cancle button "%}</a>
-                    <button type="submit" class="btn btn-danger">{% trans "Delete" context "KeyGroup delete Button" %}</button>
+                    <a href="{% url "publish:publishgroup:list" %}" class="btn btn-default pull-left" data-dismiss="modal">{% trans "Cancle" context "KeyGroup Delete Cancle button "%}</a>
+                    <button type="submit" class="btn btn-danger">{% trans "Delete" context "Publish Group delete Button" %}</button>
                 </form>
 
               </div>

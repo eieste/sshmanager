@@ -68,12 +68,12 @@ class Migration(migrations.Migration):
             fields=[
                 ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('created_by', models.ForeignKey(on_delete=django.db.models.deletion.DO_NOTHING, related_name='usertopublish_creator', to=settings.AUTH_USER_MODEL)),
-                ('group', models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.CASCADE, to='auth.Group')),
+                ('publishgroup', models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.CASCADE, to='auth.Group')),
                 ('publish_group', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='publish.PublishGroup')),
                 ('user', models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL)),
             ],
             options={
-                'unique_together': {('user', 'group', 'publish_group')},
+                'unique_together': {('user', 'publishgroup', 'publish_group')},
             },
         ),
         migrations.CreateModel(

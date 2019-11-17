@@ -54,8 +54,8 @@ class SSHPublicKeyCreateView(LoginRequiredMixin, CreateView):
             return super().post(request, *args, **kwargs)
         except IntegrityError:
             messages.add_message(request, messages.ERROR,
-                                 'You already have registered a Client with this name. ' + \
-                                 'All of your Client names must be unique.')
+                                 'You already have registered a Key with this fingerprint. ' + \
+                                 'All of your Public-Keys must be unique.')
             return self.render_to_response(context=self.get_context_data())
 
 
