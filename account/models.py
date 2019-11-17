@@ -2,6 +2,9 @@ from django.db import models
 from django.contrib.auth import get_user_model
 from sshmanager.contrib import get_master_user
 from publish.models import OAUTH2_INTEGRATIONS
+from django.contrib.auth.models import AbstractUser
+from django.db import models
+
 
 # Create your models here.
 class Account(models.Model):
@@ -9,6 +12,17 @@ class Account(models.Model):
         Additional Account Informations
     """
     user = models.OneToOneField(get_user_model(), on_delete=models.CASCADE)
+
+
+    def display_user(self):
+        if self.user.first_name and self.user.last_name:
+            return f"{self.user.first_name} {self.user.last_name}"
+        elif self.user.first_name:
+            return f"{self.user.first_name}"
+        elif self.user.username:
+            return f"{self.user.username}"
+        return f"{self.user.email}"
+
 
 
 class OAuth2Account(models.Model):

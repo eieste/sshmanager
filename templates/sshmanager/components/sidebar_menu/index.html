@@ -33,6 +33,16 @@
         </li>
     {% endif %}
 
+    {% if user.is_staff or user.is_superuser %}
+        <li class="nav-item has-treeview">
+            <a href="{% url "admin:index" %}" class="nav-link">
+                <i class="nav-icon fas fa-tachometer-alt"></i>
+                <p>
+                    {% trans "Admin" %}
+                </p>
+            </a>
+        </li>
+    {% endif %}
 </ul>
 
 

@@ -1,8 +1,17 @@
 {% extends "sshmanager/base.html" %}
 {% load static %}
-
+{% load i18n %}
 
 {% block body_inner %}
+
+
+{% if user.is_impersonate %}
+    <div class="alert alert-danger my-0 rounded-0">
+        {% blocktrans %}Du gibst dich nun als '{{ request.user.account.display_user }}' aus{% endblocktrans %}
+    </div>
+{% endif %}
+
+
 
 <!-- Site wrapper -->
 <div class="wrapper">

@@ -1,9 +1,14 @@
 {% load static %}
-  <div class="user-panel mt-3 pb-3 mb-3 d-flex">
+{% load avatar_tags %}
+
+<div class="user-panel mt-3 pb-3 mb-3 d-flex">
     <div class="image">
-      <img src="{% static "missing.jpg" %}" class="img-circle elevation-2" alt="User Image">
+        {% avatar user class="img-circle elevation-2" id="user_avatar" %}
     </div>
     <div class="info">
-      <a href="#" class="d-block">Alexander Pierce</a>
+        <a href="#" class="d-block">
+            {{ user.account.display_user }}
+        </a>
+        {{ user.account }}
     </div>
-  </div>
+</div>

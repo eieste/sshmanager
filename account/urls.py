@@ -28,4 +28,6 @@ device_and_keygroup_urlpattern = ([
 urlpatterns = [
     path("sshpublickey/", include(sshpublickey_urlpattern, namespace="sshpublickey"), name="sshpublickey_namespace"),
     path("device-and-keygroup/", include(device_and_keygroup_urlpattern, namespace="device-and-keygroup")),
+    path('avatar/', include('avatar.urls')),
+
 ]

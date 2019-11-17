@@ -39,6 +39,8 @@ INSTALLED_APPS = [
     'account.apps.AccountConfig',
     'sshmanager.apps.SSHManagerConfig',
     'publish.apps.PublishConfig',
+    'avatar',
+    'impersonate'
 ]
 # Application definition
 
@@ -50,6 +52,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'impersonate.middleware.ImpersonateMiddleware',
 ]
 
 ROOT_URLCONF = 'sshmanager.urls'
@@ -133,3 +136,5 @@ MASTER_USERNAME = 'root'
 
 LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = '/'
+
+AUTH_USER_MODEL = "account.CustomUser"

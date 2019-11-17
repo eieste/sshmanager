@@ -2,7 +2,6 @@ from django.contrib import admin
 from account.models import Device, SSHPublicKey, KeyGroup
 # Register your models here.
 
-
 class DeviceAdmin(admin.ModelAdmin):
     list_display = ("created_by", "name", "display_name")
 
