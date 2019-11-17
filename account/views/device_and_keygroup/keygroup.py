@@ -1,9 +1,17 @@
-from django.views.generic import CreateView, DetailView
+from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
+from django.urls import reverse_lazy
+from django.views.generic import CreateView, DetailView, DeleteView
+
+from account.forms import KeyGroupCreateForm, AssignPublishGroupToKeyGroupForm
 from account.models import KeyGroup
 from publish.models import PublishGroup
-from account.forms import KeyGroupCreateForm, AssignPublishGroupToKeyGroupForm
-from django.urls import reverse_lazy
-from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
+
+
+class KeyGroupDeleteView(LoginRequiredMixin, PermissionRequiredMixin, DeleteView):
+    template_name = "account/device_and_keygroup/keygroup/keygroup_delete.html"
+    model = KeyGroup
+    permission_required = ["account.delete_keygroup"]
+    success_url = reverse_lazy("account:device-and-keygroup:list")
 
 
 class KeyGroupCreateView(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
@@ -11,7 +19,7 @@ class KeyGroupCreateView(LoginRequiredMixin, PermissionRequiredMixin, CreateView
     template_name = "account/device_and_keygroup/keygroup/keygroup_create.html"
     model = KeyGroup
     form_class = KeyGroupCreateForm
-    success_url = reverse_lazy("device-and-keygroup:group:create")
+    success_url = reverse_lazy("account:device-and-keygroup:group:list")
 
     def form_valid(self, form):
         form.instance.created_by = self.request.user
@@ -47,7 +55,6 @@ class KeyGroupDetailView(LoginRequiredMixin, DetailView):
         else:
             ctx = self.get_context_data(object=self.object, form=form)
             return self.render_to_response(ctx)
-
 
     def form_valid(self, form):
         pass

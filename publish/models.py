@@ -5,6 +5,7 @@ from django.http import HttpResponseRedirect
 import urllib.parse
 from django.contrib.sites.shortcuts import get_current_site
 import uuid
+from django.conf import settings
 
 OAUTH2_INTEGRATIONS = [
     ("gitlab", "Gitlab"),
@@ -13,18 +14,19 @@ OAUTH2_INTEGRATIONS = [
 
 
 class PublishGroup(models.Model):
-    created_by = models.ForeignKey(get_user_model(), on_delete=models.CASCADE)
+    created_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     name = models.SlugField(max_length=255)
     display_name = models.CharField(max_length=255)
 
     def __str__(self):
         return self.display_name
 
+
 class UserToPublishGroup(models.Model):
-    user = models.ForeignKey(get_user_model(), on_delete=models.CASCADE, blank=True, null=True)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, blank=True, null=True)
     group = models.ForeignKey(Group, on_delete=models.CASCADE, blank=True, null=True)
     publish_group = models.ForeignKey(PublishGroup, on_delete=models.CASCADE)
-    created_by = models.ForeignKey(get_user_model(), related_name="usertopublish_creator", on_delete=models.DO_NOTHING)
+    created_by = models.ForeignKey(settings.AUTH_USER_MODEL, related_name="usertopublish_creator", on_delete=models.DO_NOTHING)
 
     class Meta:
         unique_together = ("user", "group", "publish_group")
@@ -33,7 +35,7 @@ class UserToPublishGroup(models.Model):
 class PublishGroupToKeyGroup(models.Model):
     publish_group = models.ForeignKey(PublishGroup, on_delete=models.CASCADE)
     key_group = models.ForeignKey("account.KeyGroup", on_delete=models.CASCADE)
-    created_by = models.ForeignKey(get_user_model(), on_delete=models.DO_NOTHING)
+    created_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.DO_NOTHING)
     aproved = models.BooleanField(default=False)
 
     class Meta:
@@ -45,7 +47,7 @@ class PublishGroupToKeyGroup(models.Model):
 
 class SSHPrivateKey(models.Model):
     #: Defines the key's affiliation to the user
-    created_by = models.ForeignKey(get_user_model(), on_delete=models.CASCADE)
+    created_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     #: RFC 4716 formated SSH-Key
     ssh_private_key = models.TextField(max_length=2000)
     #: SHA256 Fingerprint of SSH-Key
@@ -64,7 +66,7 @@ class Server(models.Model):
     host = models.CharField(max_length=255)
     user = models.CharField(max_length=255)
     ssh_private_key = models.ForeignKey(SSHPrivateKey, on_delete=models.DO_NOTHING)
-    created_by = models.ForeignKey(get_user_model(), on_delete=models.DO_NOTHING)
+    created_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.DO_NOTHING)
 
 
 class OAuth2Integration(models.Model):
@@ -77,7 +79,7 @@ class OAuth2Integration(models.Model):
 
     url = models.URLField()
     created_at = models.DateTimeField(auto_now_add=True)
-    created_by = models.ForeignKey(get_user_model(), on_delete=models.CASCADE)
+    created_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
 
     active = models.BooleanField(default=True)
 

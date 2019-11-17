@@ -1,28 +1,20 @@
 from django.db import models
-from django.contrib.auth import get_user_model
+from django.conf import settings
+from django.contrib.auth.models import AbstractUser
 from sshmanager.contrib import get_master_user
 from publish.models import OAUTH2_INTEGRATIONS
-from django.contrib.auth.models import AbstractUser
-from django.db import models
 
 
-# Create your models here.
-class Account(models.Model):
-    """
-        Additional Account Informations
-    """
-    user = models.OneToOneField(get_user_model(), on_delete=models.CASCADE)
-
+class AccountUser(AbstractUser):
 
     def display_user(self):
-        if self.user.first_name and self.user.last_name:
-            return f"{self.user.first_name} {self.user.last_name}"
-        elif self.user.first_name:
-            return f"{self.user.first_name}"
-        elif self.user.username:
-            return f"{self.user.username}"
-        return f"{self.user.email}"
-
+        if self.first_name and self.last_name:
+            return f"{self.first_name} {self.last_name}"
+        elif self.first_name:
+            return f"{self.first_name}"
+        elif self.username:
+            return f"{self.username}"
+        return f"{self.email}"
 
 
 class OAuth2Account(models.Model):
@@ -36,7 +28,7 @@ class Device(models.Model):
         Each device can be assigned to multiple SSHPublic Keys.
     """
     #: If user is settings.MASTER_USER the device was visible to all Users. if user is defined to specific user the device is only visible to than
-    created_by = models.ForeignKey(get_user_model(), on_delete=models.CASCADE)
+    created_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     #: Slugifey display_name (Used as comment at each publication)
     name = models.SlugField(max_length=255)
     #: Device name
@@ -55,7 +47,7 @@ class KeyGroup(models.Model):
     """
         Can be used to Group SSH-Keys by Projects
     """
-    created_by = models.ForeignKey(get_user_model(), on_delete=models.CASCADE)
+    created_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     name = models.SlugField(max_length=255)
     display_name = models.CharField(max_length=255)
 
@@ -72,8 +64,9 @@ class SSHPublicKey(models.Model):
     """
         Public Keys for publish to Server or Platforms
     """
+    name = models.CharField(max_length=255)
     #: Defines the key's affiliation to the user
-    created_by = models.ForeignKey(get_user_model(), on_delete=models.CASCADE)
+    created_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     #: RFC 4716 formated SSH-Key
     ssh_public_key = models.TextField(max_length=2000)
     #: SHA256 Fingerprint of SSH-Key
@@ -93,11 +86,7 @@ class SSHPublicKey(models.Model):
 class SSHPublicKeyToKeyGroup(models.Model):
     ssh_public_key = models.ForeignKey("account.SSHPublicKey", on_delete=models.CASCADE)
     key_group = models.ForeignKey("account.KeyGroup", on_delete=models.CASCADE)
-    created_by = models.ForeignKey(get_user_model(), on_delete=models.DO_NOTHING)
-    aproved = models.BooleanField(default=False)
+    created_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.DO_NOTHING)
 
     class Meta:
-        permissions = (
-            #: Can set aproved to true. Which means that the SSHPublicKey might be published. (Possibly the KeyGroup was connected to a PublishGroup)
-            ("can_aprove_assignment", "Can confirm aprove"),
-        )
+        unique_together = ("ssh_public_key", "key_group")

@@ -1,8 +1,10 @@
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.views.generic import TemplateView
-
-from account.models import Device, KeyGroup
+from account.models import Device
+from account.models import KeyGroup
 from sshmanager.contrib import get_master_user
+from .device import DeviceCreateView
+from .keygroup import KeyGroupCreateView, KeyGroupDetailView, KeyGroupDeleteView
 
 
 class DeviceAndGroupListView(LoginRequiredMixin, TemplateView):
@@ -18,16 +20,3 @@ class DeviceAndGroupListView(LoginRequiredMixin, TemplateView):
             ctx["keygroup_list"] = self.request.user.keygroup_set.all() | KeyGroup.objects.filter(created_by=get_master_user())
 
         return ctx
-
-"""
-class DeviceCreateView(LoginRequiredMixin, CreateView):
-    template_name = "account/device/device_create.html"
-    model = Device
-    form_class = DeviceForm
-    success_url = reverse_lazy("device:list")
-
-    def form_valid(self, form):
-        form.instance.user = self.request.user
-        form.name = form.display_name
-        return super(DeviceCreateView, self).form_valid(form)
-"""

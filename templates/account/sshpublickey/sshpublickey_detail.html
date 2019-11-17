@@ -1,0 +1,55 @@
+{% extends "sshmanager/page.html" %}
+{% load i18n %}
+{% load bootstrap4 %}
+
+
+{% block content_title %}
+    <h1>{% trans "SSH - Public Keys" %}</h1>
+{% endblock %}
+
+{% block inner_content %}
+    <div class="row">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header">
+                    {% trans "Public Key Informations" %}
+                </div>
+                <div class="card-body">
+                    <b>{% trans "Fingerprint" %}</b>: <pre>{{ object.fingerprint }}</pre>
+                    <b>{% trans "Publickey" %}</b>: <pre>{{ object.ssh_public_key }}</pre>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header">
+                    {% trans "Key Group" %}
+                    <div class="float-right">
+                        <a class="btn btn-success text-white" href="{% url "account:sshpublickey:keygroup-assign" object.pk %}">
+                            <i class="fa fa-plus"></i>
+                        </a>
+                    </div>
+                </div>
+                <div class="card-body">
+
+                    <ul class="list-group">
+                        {% for item in object.sshpublickeytokeygroup_set.all %}
+                            <li class="list-group-item">
+                                <a href="{% url "account:device-and-keygroup:keygroup:detail" item.key_group.pk %}">
+                                    {{ item.key_group.display_name }}
+                                </a>
+                                <a class="float-right" href="{% url "account:sshpublickey:keygroup-dissociate" item.pk %}">
+                                    {% trans "Delete" context "Removelink on Detailpage of SSH-PublicKey for KeyGroup Item" %}
+                                </a>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+
+
+{% endblock %}

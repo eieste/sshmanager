@@ -137,4 +137,4 @@ MASTER_USERNAME = 'root'
 LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = '/'
 
-AUTH_USER_MODEL = "account.CustomUser"
+AUTH_USER_MODEL = "account.AccountUser"

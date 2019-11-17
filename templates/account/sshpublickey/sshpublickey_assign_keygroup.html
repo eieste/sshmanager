@@ -1,0 +1,26 @@
+{% extends "sshmanager/page.html" %}
+{% load i18n %}
+{% load bootstrap4 %}
+
+{% block content_title %}
+    <h1>{% trans "SSH - Public Keys" %}</h1>
+{% endblock %}
+
+{% block inner_content %}
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header">
+                    Public SSH Keys
+                </div>
+                <div class="card-body table-responsive no-padding">
+                    <form method="POST" action="">
+                        {% bootstrap_form form %}
+                        {% csrf_token %}
+                        <input type="submit" class="btn btn-primary" />
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

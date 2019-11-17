@@ -13,7 +13,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 class PublishGroupCreateView(LoginRequiredMixin, CreateView):
     template_name = "publish/group/create.html"
     model = PublishGroup
-    fields = ("display_name", "name")
+    fields = ("display_name",)
     success_url = reverse_lazy("publish:group:list")
 
     def form_valid(self, form):

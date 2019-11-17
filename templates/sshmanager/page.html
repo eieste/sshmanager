@@ -7,7 +7,9 @@
 
 {% if user.is_impersonate %}
     <div class="alert alert-danger my-0 rounded-0">
-        {% blocktrans %}Du gibst dich nun als '{{ request.user.account.display_user }}' aus{% endblocktrans %}
+
+        {% blocktrans with name=request.user.display_user %}Du gibst dich nun als '{{ name }}' aus.{% endblocktrans %}
+        <a class="float-right mr-5" href="{% url "impersonate-stop" %}">{% trans "Stop" context "Impersonate Stop button" %} <i class="fas fa-hand-paper"></i> </a>
     </div>
 {% endif %}
 

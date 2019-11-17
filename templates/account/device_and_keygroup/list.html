@@ -81,8 +81,9 @@
                         <table class="table table-hover">
                             <thead>
                                 <tr>
-                                    <th>Global</th>
-                                    <th>Device Name</th>
+                                    <th>{% trans "Global" %}</th>
+                                    <th>{% trans "Device Name" %}</th>
+                                    <th>{% trans "Aktionen" %}</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -90,8 +91,10 @@
                                     <tr>
                                         <td>{% if keygroup.is_global %}<i class="fas fa-check-circle text-success"></i>{% else %}<i class="fas fa-times-circle text-danger"></i>{% endif %}</td>
                                         <td>{{ keygroup.display_name }}</td>
-                                        <td><a href="{% url "account:device-and-keygroup:keygroup:detail" keygroup.pk %}">{% trans "Details" %}</a></td>
-
+                                        <td>
+                                            <a href="{% url "account:device-and-keygroup:keygroup:detail" keygroup.pk %}">{% trans "Details" %}</a>
+                                            <a href="{% url "account:device-and-keygroup:keygroup:delete" keygroup.pk %}">{% trans "Delete" %}</a>
+                                        </td>
                                     </tr>
                                 {% endfor %}
                             </tbody>

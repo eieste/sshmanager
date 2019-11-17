@@ -53,6 +53,7 @@
                                     <td>-/-</td>
                                     <td>{{ key.name }}</td>
                                     <td><pre>{{ key.fingerprint }}</pre></td>
+                                    <td><a href="{% url "account:sshpublickey:detail" key.pk %}">{% trans "Details" context "SSH PublicKey List Detail link" %}</a></td>
                                 </tr>
                             {% empty %}
                                 <tr>
