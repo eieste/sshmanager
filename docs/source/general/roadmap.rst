@@ -3,7 +3,7 @@ Roadmap
 =======
 
 
-development
+v1.0.0
 ===========
 
 Documentation:
@@ -17,37 +17,25 @@ WebPortal:
   * Create Admin-UI for every Model
   * Create Frontend-UI for every Model
   * Unittests
+  * Basic Functionality (SSHPublicKeys, KeyGroup, PublishGroup)
+  * Celery Task Queuing (Deploy to OAuth2-Platform or Server)
 
-v0.1.0
+
+v2.0.0
 ======
 
-Documentation:
-  * Explain Plugin Interface
+Documentation
+ * Descripe Syncing over NATs
 
-WebPortal:
-  * Implement Plugin Interface for Key-Exchange
-  * Implement Plugin Interface for Key Publish
+WebPortal
+ * Implement Sync KeyGroups for two or more Instances
 
-Plugin[exchange] Direct Webhook:
-  * Exchange keys directly via Webhook between SSH-Manager Instances
 
-Plugin[publish] Host Rollout:
-  * Start Server-SSHKey Rollout via Ansible
-
-Ansible:
-  * Create a Playbook for SSH-Key Rollout
-
-v0.2.0
+v3.0.0
 ======
 
-Plugin[publish] Github:
-  * Publish SSh-Keys to Github
+Documentation
+ *
 
-Plugin[publish] Gitlab:
-  * Publish SSh-Keys to Gitlab
-
-Plugin[exchange] E-Mail Exchange:
-  * Exchange keys via E-Mail boxes
-
-v0.3.0
-======
+WebPortal
+ * Create a SSH-Jump Host Applicaiton
