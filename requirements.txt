@@ -1,8 +1,8 @@
-Django==2.2.7
+Django==3.0
 pycryptodome==3.9.1
-django-bootstrap4
+django-bootstrap4==1.1.0
 oauthlib==3.1.0
-requests
+requests=2.22.0
 django-avatar==4.1.0
 django-impersonate==1.4.1
 django-webpack-loader==0.6.0
