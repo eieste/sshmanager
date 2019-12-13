@@ -7,6 +7,8 @@ from account.models import KeyGroup
 from publish.models import PublishGroup, PublishGroupToKeyGroup
 from django.shortcuts import redirect
 from django.urls import reverse_lazy
+from django.utils.text import slugify
+from django.db.models import Q
 
 
 class KeyGroupDeleteView(LoginRequiredMixin, PermissionRequiredMixin, DeleteView):
@@ -25,6 +27,7 @@ class KeyGroupCreateView(LoginRequiredMixin, PermissionRequiredMixin, CreateView
 
     def form_valid(self, form):
         form.instance.created_by = self.request.user
+        form.instance.name = slugify(form.cleaned_data.get("display_name"))
         return super(KeyGroupCreateView, self).form_valid(form)
 
 
@@ -45,7 +48,7 @@ class KeyGroupDetailView(LoginRequiredMixin, DetailView):
         if form:
             form.fields["publish_groups"].queryset = PublishGroup.objects.filter(pk__in=self.request.user.usertopublishgroup_set.all().values_list("publish_group", flat=True))
             form.initial["publish_groups"] = PublishGroup.objects.filter(
-            pk__in=self.request.user.publishgrouptokeygroup_set.all().values_list("publish_group", flat=True))
+                pk__in=self.request.user.publishgrouptokeygroup_set.all().values_list("publish_group", flat=True))
             ctx["publish_group_form"] = form
 
         return ctx

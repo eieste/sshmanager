@@ -6,7 +6,7 @@
         {% avatar user class="img-circle elevation-2" id="user_avatar" %}
     </div>
     <div class="info">
-        <a href="#" class="d-block">
+        <a href="{% url "admin:index" %}" class="d-block">
             {{ user.display_user }}
         </a>
         {{ user.account }}

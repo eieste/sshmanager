@@ -1,6 +1,6 @@
 from django.contrib import admin
-from sshmanager.models import Configuration
-from sshmanager.forms import ConfigurationForm
+from sshock.models import Configuration
+from sshock.forms import ConfigurationForm
 # Register your models here.
 
 

@@ -2,8 +2,8 @@ from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMix
 from django.views.generic import TemplateView
 from account.models import Device
 from account.models import KeyGroup
-from sshmanager.contrib import get_master_user
-from .device import DeviceCreateView
+from sshock.contrib import get_master_user
+from .device import DeviceCreateView, DeviceDeleteView
 from .keygroup import KeyGroupCreateView, KeyGroupDetailView, KeyGroupDeleteView
 
 

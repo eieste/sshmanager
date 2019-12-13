@@ -3,4 +3,4 @@ from django.views.generic import TemplateView
 
 
 class AccountDashboard(LoginRequiredMixin, TemplateView):
-    template_name = "sshmanager/page.html"
+    template_name = "sshock/pages/dashboard.html"

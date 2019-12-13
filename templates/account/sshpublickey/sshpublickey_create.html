@@ -1,21 +1,30 @@
-{% extends "sshmanager/page.html" %}
+{% extends "sshock/page.html" %}
 {% load i18n %}
 {% load bootstrap4 %}
-
+{% load render_bundle from webpack_loader %}
 
 {% block content_title %}
-    <h1>{% trans "SSH - Public Keys" %}</h1>
+    <h1>{% trans "Public SSH-Key Erstellen" %}</h1>
+{% endblock %}
+
+{% block head_inner %}
+    {{ block.super }}
+    {% render_bundle "account_publickey" "css" %}
+{% endblock %}
+
+{% block breadcrumbs %}
+    <li class="breadcrumb-item"><a href="/">Home</a></li>
+    <li class="breadcrumb-item"><a href="{% url "account:sshpublickey:list" %}">{% trans "Public SSH-Key" context "Public SSHKey List Page Breadcrumb"%}</a></li>
+    <li class="breadcrumb-item active">{% trans "Erstellen" context "Public SSHKey Create Page Breadcrumb"%}</li>
 {% endblock %}
 
 {% block inner_content %}
-
     <div class="row">
         <div class="col-md-12">
             <div class="card">
                 <div class="card-header">
-                    <h3 class="card-title">Responsive Hover Table</h3>
+                    <h3 class="card-title">{% trans "SSH Public Key" context "Public SSH-Key Erstellen Headline" %}</h3>
                 </div>
-
                 <div class="card-body table-responsive no-padding">
                     <form action="" method="POST">
                         {% csrf_token %}
@@ -23,12 +32,12 @@
                         <input type="submit">
                     </form>
                 </div>
-                <!-- /.card-body -->
             </div>
         </div>
-
-
     </div>
+{% endblock %}
 
-
+{% block body_inner %}
+    {{ block.super }}
+    {% render_bundle "account_publickey" "js" %}
 {% endblock %}

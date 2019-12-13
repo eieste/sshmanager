@@ -1,9 +1,9 @@
 from django import forms
 from django.forms import formset_factory
 from django.contrib.auth import get_user_model, models
-from publish.models import PublishGroup, PublishGroupToKeyGroup
+from publish.models import PublishGroup, PublishGroupToKeyGroup, OAuth2Integration
 from account.models import KeyGroup, SSHPublicKey, SSHPublicKeyToKeyGroup
-from sshmanager.contrib import get_master_user
+from sshock.contrib import get_master_user
 
 
 class PublishGroupToKeyGroupForm(forms.Form):
@@ -22,3 +22,6 @@ class UserToPublishGroupForm(forms.Form):
   users = forms.ModelMultipleChoiceField(required=False, queryset=get_user_model().objects.filter(is_active=True))
   groups = forms.ModelMultipleChoiceField(required=False, queryset=models.Group.objects.all())
 
+
+class OAuth2IntegrationToPublishGroupForm(forms.Form):
+  oauth2integration = forms.ModelMultipleChoiceField(required=False, queryset=OAuth2Integration.objects.none())

@@ -5,7 +5,7 @@ from django.views.generic import CreateView
 from django.urls import reverse, reverse_lazy
 from account.forms import SSHPublicKeyCreateForm, AssignKeyGroupToSSHPublicKeyForm
 import hashlib
-from sshmanager.contrib import get_master_user
+from sshock.contrib import get_master_user
 from Crypto.PublicKey import RSA
 import base64
 from django.shortcuts import redirect

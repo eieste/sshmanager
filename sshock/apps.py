@@ -2,4 +2,4 @@ from django.apps import AppConfig
 
 
 class SSHManagerConfig(AppConfig):
-    name = 'sshmanager'
+    name = 'sshock'

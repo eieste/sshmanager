@@ -1,4 +1,4 @@
-{% extends "sshmanager/page.html" %}
+{% extends "sshock/page.html" %}
 {% load i18n %}
 
 
@@ -38,8 +38,10 @@
                                     <tr>
                                         <td>{{ publishgroup.display_name }}</td>
                                         <td>
-                                            <a href="{% url "publish:publishgroup:detail" publishgroup.pk %}">{% trans "Details" %}</a>
-                                            <a href="{% url "publish:publishgroup:delete" publishgroup.pk %}">{% trans "Delete" %}</a>
+                                            <div class="btn-group btn-group-sm">
+                                                <a href="{% url "publish:publishgroup:detail" publishgroup.pk %}" class="btn btn-info"><i class="fas fa-eye"></i></a>
+                                                <a href="{% url "publish:publishgroup:delete" publishgroup.pk %}" class="btn btn-danger"><i class="fas fa-trash"></i></a>
+                                            </div>
                                         </td>
                                     </tr>
                                 {% endfor %}

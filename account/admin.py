@@ -6,19 +6,16 @@ from django.utils.html import format_html
 
 # Register your models here.
 
-class AccountUserAdmin(UserAdmin):
 
+class AccountUserAdmin(UserAdmin):
 
     def get_list_display(self, request):
         list_display = list(self.list_display)
         list_display.append("show_firm_url")
         return list_display
 
-
     def show_firm_url(self, obj):
-        print(obj.pk)
         link = reverse('impersonate-start', args=[obj.id])
-
         #        link = reverse("impersonate-start", uid=obj.pk)
         return format_html("<a href='{url}'>Impersonate</a>", url=link)
 
@@ -28,9 +25,9 @@ class AccountUserAdmin(UserAdmin):
 admin.site.register(AccountUser, AccountUserAdmin)
 
 
-
 class DeviceAdmin(admin.ModelAdmin):
-    list_display = ("created_by", "name", "display_name")
+    list_display = ("created_by", "display_name")
+
 
 admin.site.register(Device, DeviceAdmin)
 
@@ -38,5 +35,12 @@ admin.site.register(Device, DeviceAdmin)
 class SSHPublicKeyAdmin(admin.ModelAdmin):
     list_display = ("created_by", "ssh_public_key", "fingerprint", "create_at", "device")
 
+
 admin.site.register(SSHPublicKey, SSHPublicKeyAdmin)
-admin.site.register(KeyGroup)
+
+
+class KeyGroupAdmin(admin.ModelAdmin):
+    list_display = ("created_by", "display_name", "name")
+    fields = ("display_name", )
+
+admin.site.register(KeyGroup, KeyGroupAdmin)

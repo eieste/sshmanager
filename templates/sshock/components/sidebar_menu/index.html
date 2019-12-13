@@ -22,12 +22,34 @@
         </li>
     {% endif %}
 
-    {% if perms.account.add_publishgroup %}
+    {% if perms.publish.add_oauth2integration %}
+        <li class="nav-item has-treeview">
+            <a href="{% url "publish:oauth2integration:list" %}" class="nav-link">
+                <i class="nav-icon fas fa-tachometer-alt"></i>
+                <p>
+                    {% trans "OAuth2 Integrationen" %}
+                </p>
+            </a>
+        </li>
+    {% endif %}
+
+    {% if perms.publish.add_publishgroup %}
         <li class="nav-item has-treeview">
             <a href="{% url "publish:publishgroup:list" %}" class="nav-link">
                 <i class="nav-icon fas fa-tachometer-alt"></i>
                 <p>
                     {% trans "Publish Group" %}
+                </p>
+            </a>
+        </li>
+    {% endif %}
+
+    {% if perms.publish.add_hostserver %}
+        <li class="nav-item has-treeview">
+            <a href="{% url "publish:host:list" %}" class="nav-link">
+                <i class="nav-icon fas fa-tachometer-alt"></i>
+                <p>
+                    {% trans "Host - Server Group" %}
                 </p>
             </a>
         </li>

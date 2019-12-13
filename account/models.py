@@ -1,7 +1,7 @@
 from django.db import models
 from django.conf import settings
 from django.contrib.auth.models import AbstractUser
-from sshmanager.contrib import get_master_user
+from sshock.contrib import get_master_user
 from publish.models import OAUTH2_INTEGRATIONS
 
 

@@ -1,9 +1,15 @@
 const path = require('path');
 const webpack = require("webpack");
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const BundleTracker = require("webpack-bundle-tracker");
+
 
 module.exports = {
-  entry: './src/static/js/index.js',
+  entry: {
+    main: './src/static/js/index.js',
+    sshock_dashboard: './src/static/pages/sshock/dashboard/index.js',
+    account_publickey: './src/static/pages/account/sshpublickey/index.js',
+  },
   output: {
     path: path.resolve(__dirname, 'static'),
     filename: '[name].js'
@@ -16,7 +22,8 @@ module.exports = {
     new webpack.ProvidePlugin({
       $: 'jquery',
       jQuery: 'jquery',
-    })
+    }),
+    new BundleTracker({filename: "./webpack-bundle.json"})
   ],
   module: {
     rules: [

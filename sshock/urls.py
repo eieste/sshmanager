@@ -1,4 +1,4 @@
-"""sshmanager URL Configuration
+"""sshock URL Configuration
 
 The `urlpatterns` list routes URLs to views. For more information please see:
     https://docs.djangoproject.com/en/2.2/topics/http/urls/
@@ -58,13 +58,22 @@ def auth_user(request):
     # https://gitlab.example.com/oauth/authorize?client_id=APP_ID&redirect_uri=REDIRECT_URI&response_type=token&state=YOUR_UNIQUE_STATE_HASH&scope=REQUESTED_SCOPES
     return HttpResponseRedirect("{}/oauth/authorize?{}".format(git.url, q))
 
+def authorizeuser_view(requests, *args, **kwargs):
+
+    oauth_app = OAuth2Integration.objects.get("")
+
+    pass
+
+
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('accounts/login/', LoginView.as_view()),
     path('account/', include("account.urls")),
     path('publish/', include("publish.urls", namespace="publish")),
-    path('', AccountDashboard.as_view()),
-    path('impersonate/', include('impersonate.urls'))
+    path('', AccountDashboard.as_view(), name="account_dashboard"),
+    path('impersonate/', include('impersonate.urls')),
+    path("oauth/authorize", authorizeuser_view, name="oauth_authorizeuser"),
+    path("searchableselect/", include('searchableselect.urls')),
 
                   #path('oauth/redirect', get_authorization),
     #path('oauth', auth_user)

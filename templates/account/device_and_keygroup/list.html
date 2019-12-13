@@ -1,4 +1,4 @@
-{% extends "sshmanager/page.html" %}
+{% extends "sshock/page.html" %}
 {% load i18n %}
 
 
@@ -41,6 +41,11 @@
                                         <td>{% if device.is_global %}<i class="fas fa-check-circle text-success"></i>{% else %}<i class="fas fa-times-circle text-danger"></i>{% endif %}</td>
                                         <td>{{ device.display_name }}</td>
                                         <td>{{ device.sshpublickey_set.all|length }}</td>
+                                        <td>
+                                            <div class="btn-group btn-group-sm">
+                                                <a href="{% url "account:device-and-keygroup:device:delete" device.pk %}" class="btn btn-danger"><i class="fas fa-trash"></i></a>
+                                            </div>
+                                        </td>
                                     </tr>
                                 {% endfor %}
                             </tbody>
@@ -63,7 +68,6 @@
                         <a href="{% url "account:device-and-keygroup:keygroup:create" %}" class="btn btn-primary">{% trans "Hinzufügen" %}</a>
                     </div>
                 </div>
-
                 <div class="card">
                     <div class="card-header">
                         <h3 class="card-title">{% trans "Key Group List" %}</h3>
@@ -92,8 +96,10 @@
                                         <td>{% if keygroup.is_global %}<i class="fas fa-check-circle text-success"></i>{% else %}<i class="fas fa-times-circle text-danger"></i>{% endif %}</td>
                                         <td>{{ keygroup.display_name }}</td>
                                         <td>
-                                            <a href="{% url "account:device-and-keygroup:keygroup:detail" keygroup.pk %}">{% trans "Details" %}</a>
-                                            <a href="{% url "account:device-and-keygroup:keygroup:delete" keygroup.pk %}">{% trans "Delete" %}</a>
+                                            <div class="btn-group btn-group-sm">
+                                                <a href="{% url "account:device-and-keygroup:keygroup:detail" keygroup.pk %}" class="btn btn-info"><i class="fas fa-eye"></i></a>
+                                                <a href="{% url "account:device-and-keygroup:keygroup:delete" keygroup.pk %}" class="btn btn-danger"><i class="fas fa-trash"></i></a>
+                                            </div>
                                         </td>
                                     </tr>
                                 {% endfor %}

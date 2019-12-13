@@ -17,13 +17,13 @@ import sphinx_theme
 
 sys.path.insert(0, os.path.abspath('../../'))
 
-os.environ['DJANGO_SETTINGS_MODULE'] = 'sshmanager.settings'
+os.environ['DJANGO_SETTINGS_MODULE'] = 'sshock.settings'
 django.setup()
 
 
 # -- Project information -----------------------------------------------------
 
-project = 'sshmanager'
+project = 'sshock'
 copyright = '2019, Stefan Eiermann'
 author = 'Stefan Eiermann'
 

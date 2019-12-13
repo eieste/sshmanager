@@ -1,14 +1,15 @@
-{% extends "sshmanager/skeleton.html" %}
+{% extends "sshock/skeleton.html" %}
+{% load  render_bundle from webpack_loader %}
 {% load static %}
 
 {% block head_inner %}
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="{% static 'main.css' %}" rel="stylesheet"/>
+    {% render_bundle "main" "css" %}
 {% endblock %}
 
 
 {% block body_inner %}
     {{ block.super }}
-    <script type="text/javascript" src="{% static 'main.js' %}"></script>
+    {% render_bundle "main" "js" %}
 {% endblock %}
