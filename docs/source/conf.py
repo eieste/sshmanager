@@ -38,6 +38,7 @@ release = 'development'
 # ones.
 extensions = [
     'sphinxcontrib.mermaid',
+    'sphinxcontrib.openapi',
     'sphinx.ext.autodoc',
     'sphinx.ext.coverage',
 ]

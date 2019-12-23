@@ -1,0 +1,34 @@
+{% extends "sshock/page.html" %}
+{% load i18n %}
+{% load bootstrap4 %}
+
+
+{% block content_title %}
+{% endblock %}
+
+{% block inner_content %}
+
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h4 class="modal-title">{% trans "Delete OAuth2 Integration" %}</h4>
+              </div>
+              <div class="modal-body">
+                <p>{% trans "Do you like Realy to delete this oauth2 integration?" %}</p>
+                <p>{% trans "Name:" %} {{ object.display_name }}({{ object.url }})</p>
+              </div>
+              <div class="modal-footer">
+                <form method="POST" action="">
+                    {% csrf_token %}
+
+                    <a href="{% url "publish:oauth2integration:list" %}" class="btn btn-default pull-left" data-dismiss="modal">{% trans "Cancle" context "OAuth2Integration Delete Cancle button "%}</a>
+                    <button type="submit" class="btn btn-danger">{% trans "Delete" context "Publish Group delete Button" %}</button>
+                </form>
+
+              </div>
+            </div>
+            <!-- /.modal-content -->
+          </div>
+          <!-- /.modal-dialog -->
+
+{% endblock %}

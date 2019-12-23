@@ -3,6 +3,27 @@ Roadmap
 =======
 
 
+Feature List
+============
+ * Online Hosted Services
+    * Synchronization Service
+    * Managed Platform
+ * CLI Tool
+    * Use sshOCK without Webinterface
+    * Control Online Hosted sshOCK Service (needed also for deploy keys to services)
+ * SSH Jump Host
+    * use sshOCK's structured data to display a list of all servers the user has access to
+ * Share Public Keys via
+    * sshOCK OnlineServces
+    * E-Mail
+    * Holepunching (also onlineservice)
+    * Past/hastbin
+    * FTP
+    * syncthing
+ * Imitieren bekannter APIs. z.B. GithubAPI zum abfragen der user public keys ODer LaunchPads
+    * Diese funktion soll es ermöglichen, das der DNS so manipuliert wird, das z.B. bei der installation von Ubuntu
+      die Public Keys direkt von sshOCK geladen werden.
+
 v1.0.0
 ===========
 

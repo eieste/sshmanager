@@ -7,8 +7,8 @@ const BundleTracker = require("webpack-bundle-tracker");
 module.exports = {
   entry: {
     main: './src/static/js/index.js',
-    sshock_dashboard: './src/static/pages/sshock/dashboard/index.js',
-    account_publickey: './src/static/pages/account/sshpublickey/index.js',
+    account_dashboard: './src/static/pages/account/dashboard/index.js',
+    account_publickey: './src/static/pages/account/publickey/index.js',
   },
   output: {
     path: path.resolve(__dirname, 'static'),

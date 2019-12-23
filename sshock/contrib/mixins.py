@@ -23,3 +23,13 @@ class JSONResponseMixin:
         # objects -- such as Django model instances or querysets
         # -- can be serialized as JSON.
         return context
+
+
+class PartitialMixin:
+
+    def dispatch(self, request, *args, **kwargs):
+
+        if not request.is_ajax():
+            return super(PartitialMixin, self).dispatch(request, *args, **kwargs)
+
+        return self.partitial(request, *args, **kwargs)

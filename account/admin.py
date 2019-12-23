@@ -1,12 +1,11 @@
 from django.contrib import admin
-from account.models import AccountUser, Device, SSHPublicKey, KeyGroup
 from django.contrib.auth.admin import UserAdmin
 from django.urls import reverse
 from django.utils.html import format_html
+from account.models import AccountUser
+
 
 # Register your models here.
-
-
 class AccountUserAdmin(UserAdmin):
 
     def get_list_display(self, request):
@@ -24,23 +23,3 @@ class AccountUserAdmin(UserAdmin):
 
 admin.site.register(AccountUser, AccountUserAdmin)
 
-
-class DeviceAdmin(admin.ModelAdmin):
-    list_display = ("created_by", "display_name")
-
-
-admin.site.register(Device, DeviceAdmin)
-
-
-class SSHPublicKeyAdmin(admin.ModelAdmin):
-    list_display = ("created_by", "ssh_public_key", "fingerprint", "create_at", "device")
-
-
-admin.site.register(SSHPublicKey, SSHPublicKeyAdmin)
-
-
-class KeyGroupAdmin(admin.ModelAdmin):
-    list_display = ("created_by", "display_name", "name")
-    fields = ("display_name", )
-
-admin.site.register(KeyGroup, KeyGroupAdmin)

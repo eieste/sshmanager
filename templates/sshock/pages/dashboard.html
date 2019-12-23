@@ -1,11 +1,12 @@
 {% extends "sshock/page.html" %}
 {% load i18n %}
 {% load render_bundle from webpack_loader %}
+{% load partitialajax %}
 {% load bootstrap4 %}
 
 {% block body_inner %}
     {{ block.super }}
-    {% render_bundle "sshock_dashboard" "js" %}
+    {% render_bundle "account_dashboard" "js" %}
 {% endblock %}
 
 {% block content_title %}
@@ -13,6 +14,7 @@
 {% endblock %}
 
 {% block inner_content %}
+    {% direct_partitial "#count-sshkey-dashboard" reload=".reloadicon" %}
     <div class="row">
         <div class="col-md-3">
             <div class="card">

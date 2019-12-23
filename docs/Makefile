@@ -16,7 +16,7 @@ help:
 
 
 livehtml:
-	sphinx-autobuild -z ../../ -i '../.idea/*' -i './build/html/*' -i '*.rst~' -b html -p 8001 $(SPHINXOPTS) $(SOURCEDIR) $(BUILDDIR)/html
+	sphinx-autobuild -z ../../ -i '../.idea/*' -i '../../website/node_modules/*' -i '../node_modules/*' -i './build/html/*' -i '*.py~' -i '*.rst~' -i '*.yml~' -b html -p 8001 $(SPHINXOPTS) $(SOURCEDIR) $(BUILDDIR)/html
 
 
 # Catch-all target: route all unknown targets to Sphinx using the new

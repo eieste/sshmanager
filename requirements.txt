@@ -2,7 +2,7 @@ Django==3.0
 pycryptodome==3.9.1
 django-bootstrap4==1.1.0
 oauthlib==3.1.0
-requests=2.22.0
-django-avatar==4.1.0
+requests==2.22.0
+git+git://github.com/eieste/django-avatar#egg=django-avatar
 django-impersonate==1.4.1
 django-webpack-loader==0.6.0

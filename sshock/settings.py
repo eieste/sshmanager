@@ -38,7 +38,10 @@ INSTALLED_APPS = [
     'bootstrap4',
     'account.apps.AccountConfig',
     'sshock.apps.SSHManagerConfig',
-    'publish.apps.PublishConfig',
+    'superarea.apps.SuperareaConfig',
+    'adminarea.apps.AdminareaConfig',
+    'userarea.apps.UserareaConfig',
+    'partitialajax.apps.PartitialajaxConfig',
     'avatar',
     'impersonate',
     'webpack_loader',
@@ -121,6 +124,7 @@ USE_L10N = True
 
 USE_TZ = True
 
+LANGUAGES = (("de-DE", "German"),)
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
@@ -157,6 +161,7 @@ CELERY_TASK_SERIALIZER = 'json'
 CELERY_RESULT_SERIALIZER = 'json'
 CELERY_TIMEZONE = 'Europe/Berlin'
 
+AVATAR_GRAVATAR_DEFAULT = "mp"
 
 WEBPACK_LOADER = {
     "DEFAULT": {

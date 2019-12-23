@@ -3,4 +3,3 @@ sphinx
 django
 sphinx-autobuild
 sphinx-theme==1.0
-

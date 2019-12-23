@@ -14,6 +14,7 @@ Welcome to sshmanager's documentation!
    general/roadmap
    general/key-concept
    general/real
+   general/divisions
 
 .. toctree::
    :maxdepth: 1
@@ -21,8 +22,26 @@ Welcome to sshmanager's documentation!
 
    webportal/account/models
    webportal/account/views/dashboard
-   webportal/account/views/device
-   webportal/account/views/sshpublickey
+   webportal/adminarea/models
+   webportal/superarea/models
+   webportal/userarea/models
+   webportal/userarea/views/device
+   webportal/userarea/views/publickey
+
+
+.. toctree::
+   :maxdepth: 1
+   :caption: CLI Documentation:
+
+   cli/general
+   cli/commands
+
+.. toctree::
+   :maxdepth: 1
+   :caption: API Documentation:
+
+   api/localservices
+
 
 Indices and tables
 ==================
