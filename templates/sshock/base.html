@@ -5,11 +5,4 @@
 {% block head_inner %}
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    {% render_bundle "main" "css" %}
-{% endblock %}
-
-
-{% block body_inner %}
-    {{ block.super }}
-    {% render_bundle "main" "js" %}
 {% endblock %}

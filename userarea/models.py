@@ -16,8 +16,6 @@ class Device(LinkedToMeta, VisibleToMeta, models.Model):
         Create a Device entry.
         Each device can be assigned to multiple SSHPublic Keys.
     """
-    #: If user is settings.MASTER_USER the device was visible to all Users. if user is defined to specific user the device is only visible to than
-    created_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     #: Slugifey display_name (Used as comment at each publication)
     name = models.SlugField(max_length=255)
     #: Device name
@@ -26,10 +24,13 @@ class Device(LinkedToMeta, VisibleToMeta, models.Model):
     def __str__(self):
         return self.display_name
 
-    def is_global(self):
-        if self.created_by.pk is get_master_user().pk:
-            return True
-        return False
+    class Meta:
+        permissions = (
+            ("self_manage", "Can create and delete Devices for itself "),
+            ("organizational_manage", "Can create and delete Devices for the hole Organization"),
+            ("global_manage", "Can create and delete Devices for the entire Apllication")
+        )
+        default_permissions = ()
 
 
 class KeyGroup(models.Model):

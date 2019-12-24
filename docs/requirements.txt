@@ -3,3 +3,4 @@ sphinx
 django
 sphinx-autobuild
 sphinx-theme==1.0
+sphinxcontrib-openapi==0.6.0

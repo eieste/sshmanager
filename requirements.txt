@@ -3,6 +3,8 @@ pycryptodome==3.9.1
 django-bootstrap4==1.1.0
 oauthlib==3.1.0
 requests==2.22.0
-git+git://github.com/eieste/django-avatar#egg=django-avatar
+git+https://github.com/grantmcconnaughey/django-avatar.git#egg=django_avatar
 django-impersonate==1.4.1
 django-webpack-loader==0.6.0
+celery==4.4.0
+django-celery-results==1.1.2

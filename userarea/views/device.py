@@ -33,5 +33,4 @@ class DeviceListView(LoginRequiredMixin, PermissionRequiredMixin, ListView):
     template_name = "userarea/device/list.html"
 
     def get_queryset(self, *args, **kwargs):
-        queryset = super(DeviceListView, self).get_queryset(*args, **kwargs)
-        return queryset
+        return Device.filter_by_visibility(self.request)

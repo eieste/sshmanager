@@ -1,5 +1,6 @@
 from django.db import models
 from django.conf import settings
+from django.db.models import Q
 
 
 DATATYPE_CHOICES = (
@@ -40,6 +41,11 @@ class VisibleToMeta(models.Model):
     """
     organizational_visibility = models.BooleanField(default=False)
     global_visibility = models.BooleanField(default=False)
+
+    @classmethod
+    def filter_by_visibility(cls, request):
+        user = request.user
+        return cls.objects.filter(Q(created_by=user) | Q(organizational_visibility=True, organization=user.organization) | Q(global_visibility=True) )
 
     class Meta:
         abstract = True

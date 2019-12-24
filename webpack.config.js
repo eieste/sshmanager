@@ -9,6 +9,8 @@ module.exports = {
     main: './src/static/js/index.js',
     account_dashboard: './src/static/pages/account/dashboard/index.js',
     account_publickey: './src/static/pages/account/publickey/index.js',
+    userarea_device_list: './src/static/pages/userarea/device/list.js',
+    userarea_device_create: './src/static/pages/userarea/device/create.js',
   },
   output: {
     path: path.resolve(__dirname, 'static'),

@@ -72,7 +72,6 @@ urlpatterns = [
     path('', AccountDashboard.as_view(), name="account_dashboard"),
     path('impersonate/', include('impersonate.urls')),
     #path("oauth/authorize", authorizeuser_view, name="oauth_authorizeuser"),
-    path("searchableselect/", include('searchableselect.urls')),
     #path('oauth/redirect', get_authorization),
     #path('oauth', auth_user)
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

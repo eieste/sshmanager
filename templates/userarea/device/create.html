@@ -1,6 +1,7 @@
 {% extends "sshock/page.html" %}
 {% load i18n %}
 {% load bootstrap4 %}
+{% load render_bundle from webpack_loader %}
 
 
 {% block content_title %}
@@ -8,7 +9,6 @@
 {% endblock %}
 
 {% block inner_content %}
-
     <div class="row">
         <div class="col-md-12">
             <div class="card">
@@ -21,15 +21,17 @@
                         {% csrf_token %}
                         {% bootstrap_form form %}
                         <input type="submit">
-
                     </form>
                 </div>
                 <!-- /.card-body -->
             </div>
         </div>
-
-
     </div>
+{% endblock %}
 
-
+{% block body_inner %}
+    {{ block.super }}
+    {% render_bundle "userarea_device_list" "js" %}
+    {% render_bundle "userarea_device_list" "css" %}
+    {% include "sshock/components/modal/index.html" %}
 {% endblock %}

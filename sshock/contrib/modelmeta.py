@@ -1,6 +1,7 @@
 from django.db.models import Q
 from sshock.contrib import get_master_user
 
+
 def filter_queryset_visibility(request, qs):
     """
         Filters all Entrys with the correct Visibility settings
