@@ -122,4 +122,4 @@ class OAuth2IntegrationToPublishGroup(models.Model):
     created_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.DO_NOTHING)
 
     class Meta:
-        unique_together = ("oauth2_integration", "publish_group")
+        unique_together = ("app_integration", "publish_group")

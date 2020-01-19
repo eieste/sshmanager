@@ -7,7 +7,8 @@ class AccountDashboard(LoginRequiredMixin, PartitialAjaxMixin, TemplateView):
     """
         Dashboard after login
     """
-    template_name = "sshock/pages/dashboard.html"
+    template_name = "account/dashboard.html"
     partitial_list = {
-        "#count-sshkey-dashboard": "sshock/pages/foobar.html"
+        "#count-sshkey-dashboard": "sshock/pages/foobar.html",
+        "#testpart": "sshock/pages/foobar.html"
     }

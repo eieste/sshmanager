@@ -1,0 +1,25 @@
+{% extends "sshock/page.html" %}
+{% load i18n %}
+{% load bootstrap4 %}
+{% load render_bundle from webpack_loader %}
+{% load partitialajax %}
+
+
+{% block content_title %}
+    <h1>{% trans "Delete App Ingegration" %}</h1>
+{% endblock %}
+
+{% block inner_content %}
+    <div class="modal " tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            {% direct_partitial ".modal-content"  %}
+        </div>
+    </div>
+{% endblock %}
+
+
+{% block body_inner %}
+    {% render_bundle "adminarea_appintegration_delete" "css" %}
+    {{ block.super }}
+    {% render_bundle "adminarea_appintegration_delete" "js" %}
+{% endblock %}

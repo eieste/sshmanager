@@ -1,0 +1,53 @@
+{% extends "sshock/page.html" %}
+{% load i18n %}
+{% load render_bundle from webpack_loader %}
+{% load partitialajax %}
+
+
+{% block content_title %}
+    <h1>{% trans "App Integrations" %}</h1>
+{% endblock %}
+
+{% block inner_content %}
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header">
+                    {% trans "App Apps" %}
+                </div>
+                <div class="card-body">
+                    <h5 class="card-title">{% trans "App Integration Overview" %}</h5>
+                    <p class="card-text">App Application</p>
+                    <a href="{% url "adminarea:appintegration:create" %}" class="btn btn-primary" id="appintegration-create-button" data-toggle="modal" data-target="#baseModal" data-partitial-url="{% url "adminarea:appintegration:create" %}">
+                        {% trans "Add a App Integration" context "Add appintegration button" %}
+                    </a>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">{% trans "OAuth2 Integrationen" %}</h3>
+                </div>
+                <div class="card-body table-responsive no-padding">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th>{% trans "Application" %}</th>
+                                <th>{% trans "Aktion" %}</th>
+                            </tr>
+                        </thead>
+                        {% direct_partitial "tbody#appintegration-list-partitial" %}
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+
+{% block body_inner %}
+    {% render_bundle "adminarea_appintegration_list" "css" %}
+    {{ block.super }}
+    {% render_bundle "adminarea_appintegration_list" "js" %}
+
+    {% include "sshock/components/modal/index.html" %}
+{% endblock %}

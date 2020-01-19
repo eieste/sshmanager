@@ -1,0 +1,18 @@
+{% load i18n %}
+{% load bootstrap4 %}
+
+
+    <div class="modal-header">
+        <h4 class="modal-title">{% trans "Delete App Integration" %}</h4>
+    </div>
+    <div class="modal-body">
+        <p>{% trans "Do you like Realy to delete this App Integration?" %}</p>
+        <p>{% trans "Name:" %} {{ object.display_name }}({{ object.platform }})</p>
+    </div>
+    <div class="modal-footer">
+        <form method="POST" action="{% url "adminarea:appintegration:delete" object.pk %}">
+            {% csrf_token %}
+            <a href="{% url "adminarea:appintegration:list" %}" class="btn btn-default pull-left" data-dismiss="modal">{% trans "Cancle" context "AppIntegration Delete Cancle button "%}</a>
+            <button type="submit" class="btn btn-danger">{% trans "Delete" context "Appintegration delete Button" %}</button>
+        </form>
+    </div>(

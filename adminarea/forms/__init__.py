@@ -1,0 +1,1 @@
+from .appintegration import AppIntegrationForm

@@ -17,7 +17,7 @@ oauth2integration_urlpatterns = ([
     path("list", OAuth2IntegrationListView.as_view(), name="list"),
     path("create", OAuth2IntegrationCreateView.as_view(), name="create"),
     path("delete/<pk>", OAuth2IntegrationDeleteView.as_view(), name="delete"),
-], "oauth2integration")
+], "appintegration")
 
 host_urlpatterns = ([
     path("create", HostCreateView.as_view(), name="create"),
@@ -27,7 +27,7 @@ host_urlpatterns = ([
 
 urlpatterns = [
     path('publishgroup/', include(publishgroup_urlpatterns, namespace="publishgroup")),
-    path('oauth2integration/', include(oauth2integration_urlpatterns, namespace="oauth2integration")),
+    path('appintegration/', include(oauth2integration_urlpatterns, namespace="appintegration")),
     path('host/', include(host_urlpatterns, namespace="host")),
 ]
 

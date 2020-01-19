@@ -57,10 +57,10 @@ class OAuth2AssignExtension:
             args = (self.request.POST,)
 
         form = OAuth2IntegrationToPublishGroupForm(*args, initial={
-            "oauth2integration": OAuth2IntegrationToPublishGroup.objects.filter(publish_group=self.object).values_list("oauth2_integration", flat=True),
+            "appintegration": OAuth2IntegrationToPublishGroup.objects.filter(publish_group=self.object).values_list("app_integration", flat=True),
         })
         # .filter(created_by__in=[self.request.user, get_master_user()]).values_list("oauth2_integration__display_name", flat=True),
-        form.fields['oauth2integration'].queryset = OAuth2Integration.objects.filter(created_by__in=[self.request.user, get_master_user()]) # [(1, "asdf"), (2, "sjg")]
+        form.fields['appintegration'].queryset = OAuth2Integration.objects.filter(created_by__in=[self.request.user, get_master_user()]) # [(1, "asdf"), (2, "sjg")]
 
         if self.request.method == "POST":
             form.is_valid()
@@ -68,7 +68,7 @@ class OAuth2AssignExtension:
         return form
 
     def oauth2_assign_form_valid(self, form):
-        oauth2integrations = form.cleaned_data.get("oauth2integration", [])
+        oauth2integrations = form.cleaned_data.get("appintegration", [])
 
         # print(self.object.oauth2integrationtopublishgroup_set.all())
 

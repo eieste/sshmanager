@@ -1,11 +1,11 @@
 {% extends "sshock/page.html" %}
 {% load i18n %}
-
+{% load partitialajax %}
+{% load render_bundle from webpack_loader %}
 
 {% block content_title %}
-    <h1>{% trans "SSH - Public Keys" %}</h1>
+    <h1>{% trans "Public Key" %}</h1>
 {% endblock %}
-
 
 {% block breadcrumbs %}
     <li class="breadcrumb-item"><a href="/">Home</a></li>
@@ -26,7 +26,9 @@
                             erforderlichen Geräte und Applikationen zu verteilen.
                         {% endblocktrans %}
                     </p>
-                    <a href="{% url "account:publickey:create" %}" class="btn btn-primary">{% trans "Hinzufügen" %}</a>
+                    <a class="btn btn-primary" href="{% url "userarea:publickey:create" %}" id="publickey-create-button" data-toggle="modal" data-target="#baseModal" data-partitial-url="{% url "userarea:publickey:create" %}">
+                        {% trans "Add a Public Key" context "Add Public Key button" %}
+                    </a>
                 </div>
             </div>
 
@@ -46,36 +48,21 @@
                                 <th>Fingerpint</th>
                             </tr>
                         </thead>
-                        <tbody>
-                            {% for key in object_list %}
-                                <tr>
-                                    <td>{{ key.pk }}</td>
-                                    <td>{{ key.device.display_name }}</td>
-                                    <td>-/-</td>
-                                    <td>{{ key.name }}</td>
-                                    <td><code>{{ key.fingerprint }}</code></td>
-                                    <td>
-                                        <div class="btn-group btn-group-sm">
-                                            <a href="{% url "account:publickey:detail" key.pk %}" class="btn btn-info"><i class="fas fa-eye"></i></a>
-                                        </div>
-                                    </td>
-                                </tr>
-                            {% empty %}
-                                <tr>
-                                    <td colspan="5" class="text-center">
-                                        {% trans "SSH-Public Keylist is Empty" %}
-                                    </td>
-                                </tr>
-                            {% endfor %}
-                        </tbody>
+                        {% direct_partitial "tbody#publickey-list-partitial" %}
                     </table>
                 </div>
                 <!-- /.card-body -->
             </div>
         </div>
-
-
     </div>
+{% endblock %}
 
 
+
+{% block body_inner %}
+    {% render_bundle "userarea_publickey_list" "css" %}
+    {{ block.super }}
+    {% render_bundle "userarea_publickey_list" "js" %}
+
+    {% include "sshock/components/modal/index.html" %}
 {% endblock %}

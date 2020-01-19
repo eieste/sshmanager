@@ -2,36 +2,22 @@
 {% load i18n %}
 {% load bootstrap4 %}
 {% load render_bundle from webpack_loader %}
-
+{% load partitialajax %}
 
 {% block content_title %}
     <h1>{% trans "Create Device" %}</h1>
 {% endblock %}
 
 {% block inner_content %}
-    <div class="row">
-        <div class="col-md-12">
-            <div class="card">
-                <div class="card-header">
-                    <h3 class="card-title">{% trans "Device Create" %}</h3>
-                </div>
-
-                <div class="card-body table-responsive no-padding">
-                    <form action="" method="POST">
-                        {% csrf_token %}
-                        {% bootstrap_form form %}
-                        <input type="submit">
-                    </form>
-                </div>
-                <!-- /.card-body -->
-            </div>
+    <div class="modal" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            {% direct_partitial ".modal-content"  %}
         </div>
     </div>
 {% endblock %}
 
 {% block body_inner %}
+    {% render_bundle "userarea_device_create" "css" %}
     {{ block.super }}
-    {% render_bundle "userarea_device_list" "js" %}
-    {% render_bundle "userarea_device_list" "css" %}
-    {% include "sshock/components/modal/index.html" %}
+    {% render_bundle "userarea_device_create" "js" %}
 {% endblock %}

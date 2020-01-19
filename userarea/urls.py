@@ -1,4 +1,4 @@
-from userarea.views import KeyGroupCreateView, KeyGroupDetailView, KeyGroupDeleteView, KeyGroupListView
+from userarea.views import KeyGroupCreateView, KeyGroupUpdateView, KeyGroupDeleteView, KeyGroupListView
 from django.urls import path, include
 
 from userarea.views.device import DeviceCreateView, DeviceDeleteView, DeviceListView
@@ -17,7 +17,7 @@ publickey_urlpattern = ([
 keygroup_urlpattern = ([
     path("list", KeyGroupListView.as_view(), name="list"),
     path("create", KeyGroupCreateView.as_view(), name="create"),
-    path("detail/<pk>/", KeyGroupDetailView.as_view(), name="detail"),
+    path("update/<pk>/", KeyGroupUpdateView.as_view(), name="update"),
     path("delete/<pk>/", KeyGroupDeleteView.as_view(), name="delete")
 ], "keygroup")
 

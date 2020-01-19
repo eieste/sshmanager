@@ -21,7 +21,7 @@
                 <form method="POST" action="">
                     {% csrf_token %}
 
-                    <a href="{% url "publish:oauth2integration:list" %}" class="btn btn-default pull-left" data-dismiss="modal">{% trans "Cancle" context "OAuth2Integration Delete Cancle button "%}</a>
+                    <a href="{% url "publish:appintegration:list" %}" class="btn btn-default pull-left" data-dismiss="modal">{% trans "Cancle" context "OAuth2Integration Delete Cancle button "%}</a>
                     <button type="submit" class="btn btn-danger">{% trans "Delete" context "Publish Group delete Button" %}</button>
                 </form>
 

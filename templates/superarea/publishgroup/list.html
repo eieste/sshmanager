@@ -1,55 +1,51 @@
 {% extends "sshock/page.html" %}
 {% load i18n %}
-
+{% load partitialajax %}
+{% load webpack_loader %}
 
 {% block content_title %}
-    <h1>{% trans "Devices and Groups" %}</h1>
+    <h1>{% trans "Publishgroups" %}</h1>
 {% endblock %}
 
 {% block inner_content %}
-    {% if perms.account.add_device %}
-        <div class="row">
+    <div class="row">
 
-            <div class="col-md-12">
-                <div class="card">
-                    <div class="card-header">
-                        {% trans "Publish List" %}
-                    </div>
-                    <div class="card-body">
-                        <h5 class="card-title">{% trans "Device Overview" %}</h5>
-                        <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-                        <a href="{% url "publish:publishgroup:create" %}" class="btn btn-primary">{% trans "Hinzufügen" %}</a>
-                    </div>
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header">
+                    {% trans "Publish Group List" %}
                 </div>
-                <div class="card">
-                    <div class="card-header">
-                        <h3 class="card-title">{% trans "Publish Group" %}</h3>
-                    </div>
-                    <div class="card-body table-responsive no-padding">
-                        <table class="table table-hover">
-                            <thead>
-                                <tr>
-                                    <th>{% trans "Gruppen Name" %}</th>
-                                    <th>{% trans "Aktion" %}</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {% for publishgroup in object_list %}
-                                    <tr>
-                                        <td>{{ publishgroup.display_name }}</td>
-                                        <td>
-                                            <div class="btn-group btn-group-sm">
-                                                <a href="{% url "publish:publishgroup:detail" publishgroup.pk %}" class="btn btn-info"><i class="fas fa-eye"></i></a>
-                                                <a href="{% url "publish:publishgroup:delete" publishgroup.pk %}" class="btn btn-danger"><i class="fas fa-trash"></i></a>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                {% endfor %}
-                            </tbody>
-                        </table>
-                    </div>
+                <div class="card-body">
+                    <h5 class="card-title">{% trans "Publish Group Overview" %}</h5>
+                    <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+                    <a href="{% url "superarea:publishgroup:create" %}" data-toggle="modal" data-target="#baseModal" data-partitial-url="{% url "superarea:publishgroup:create" %}" class="btn btn-primary">{% trans "Hinzufügen" %}</a>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">{% trans "Publish Group" %}</h3>
+                </div>
+                <div class="card-body table-responsive no-padding">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th>{% trans "Gruppen Name" %}</th>
+                                <th>{% trans "Aktion" %}</th>
+                            </tr>
+                        </thead>
+                        {% direct_partitial "tbody#publishgroup-partitial" %}
+                    </table>
                 </div>
             </div>
         </div>
-    {% endif %}
+    </div>
 {% endblock %}
+
+
+
+{% block body_inner %}
+    {% render_bundle "superarea_publishgroup_list" "css" %}
+    {{ block.super }}
+    {% render_bundle "superarea_publishgroup_list" "js" %}
+    {% include "sshock/components/modal/index.html" %}
+{% endblock %}" %}

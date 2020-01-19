@@ -1,0 +1,20 @@
+{% load i18n %}
+{% load bootstrap4 %}
+{% load webpack_loader %}
+
+
+
+<form action="{% url "userarea:keygroup:update" object.pk %}" method="POST">
+    <div class="modal-header">
+        <h4 class="modal-title">{% trans "Edit Publish Group" %}</h4>
+    </div>
+    <div class="modal-body">
+            {% csrf_token %}
+            {% bootstrap_form key_group_form %}
+        </form>
+    </div>
+    <div class="modal-footer">
+        <a href="{% url "userarea:device:list" %}" class="btn btn-default pull-left" data-dismiss="modal">{% trans "Cancle" context "Assign Publish Group to Keygroup Cancle button "%}</a>
+        <button type="submit" class="btn btn-danger">{% trans "Save" context "KeyGroup Update Button" %}</button>
+    </div>
+</form>

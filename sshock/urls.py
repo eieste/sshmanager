@@ -20,6 +20,7 @@ from django.conf import settings
 from django.conf.urls.static import static
 from account.views.login import LoginView
 from account.views.dashboard import AccountDashboard
+from django.views.i18n import JavaScriptCatalog
 from django.http import HttpResponse, HttpResponseRedirect
 import json
 import urllib.parse
@@ -71,6 +72,7 @@ urlpatterns = [
     path('user/', include("userarea.urls", namespace="userarea")),
     path('', AccountDashboard.as_view(), name="account_dashboard"),
     path('impersonate/', include('impersonate.urls')),
+    path('i18n/', JavaScriptCatalog.as_view(), name="javascript_catalog")
     #path("oauth/authorize", authorizeuser_view, name="oauth_authorizeuser"),
     #path('oauth/redirect', get_authorization),
     #path('oauth', auth_user)

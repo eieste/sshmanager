@@ -1,0 +1,16 @@
+{% load i18n %}
+{% load bootstrap4 %}
+
+<form action="{% url "superarea:publishgroup:create" %}" method="POST">
+    <div class="modal-header">
+        <h4 class="modal-title">{% trans "Create Publishgroup" %}</h4>
+    </div>
+    <div class="modal-body">
+        {% csrf_token %}
+        {% bootstrap_form form %}
+    </div>
+    <div class="modal-footer">
+        <a href="{% url "superarea:publishgroup:list" %}" class="btn btn-default pull-left" data-dismiss="modal">{% trans "Cancle" context "Publishgroup Delete Cancle button "%}</a>
+        <button type="submit" class="btn btn-danger">{% trans "Create" context "Publish Group create Button" %}</button>
+    </div>
+</form>

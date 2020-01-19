@@ -19,6 +19,7 @@ class AssignKeyGroupToPublicKeyForm(forms.Form):
     key_groups = forms.ModelMultipleChoiceField(queryset=KeyGroup.objects.none(), required=False)
 
 
+# BaseForm
 class AssignPublishGroupToKeyGroupForm(forms.Form):
     template_form_name = "assign_publishgroup_to_keygroup_form"
     publish_groups = forms.ModelMultipleChoiceField(required=False, queryset=PublishGroup.objects.none())

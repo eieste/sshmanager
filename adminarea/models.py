@@ -9,23 +9,30 @@ from sshock.models import LinkedToMeta
 
 from superarea.models import PublishGroup
 
-OAUTH2_INTEGRATIONS = [
+APP_INTEGRATIONS = [
     ("gitlab", "Gitlab"),
-    ("github", "Github")
+    ("github", "Github"),
+    ("hetzner", "Hetzner"),
+    ("ovh", "OVH"),
+    ("scaleway", "Scaleway"),
+    ("digitalocean", "Digital Ocean")
 ]
 
 
-class OAuth2Integration(LinkedToMeta, models.Model):
-    platform = models.CharField(max_length=255, choices=OAUTH2_INTEGRATIONS)
+class AppIntegration(LinkedToMeta, models.Model):
+    platform = models.CharField(max_length=255, choices=APP_INTEGRATIONS)
 
     display_name = models.CharField(max_length=255)
 
-    access_id = models.CharField(max_length=255)
-    secret_key = models.CharField(max_length=255)
+    #: Token used for apis without OAuth2 Access
+    token = models.CharField(max_length=255, blank=True, null=True)
 
+    #: OAuth2 Credentials
+    access_id = models.CharField(max_length=255, blank=True, null=True)
+    secret_key = models.CharField(max_length=255, blank=True, null=True)
+
+    #: Application URL / API Endpoint
     url = models.URLField(blank=True, null=True)
-    created_at = models.DateTimeField(auto_now_add=True)
-    created_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
 
     active = models.BooleanField(default=True)
 
@@ -55,13 +62,13 @@ class OAuth2Integration(LinkedToMeta, models.Model):
         pass
 
 
-class OAuth2IntegrationToPublishGroup(models.Model):
-    oauth2_integration = models.ForeignKey(OAuth2Integration, on_delete=models.CASCADE)
+class AppIntegrationToPublishGroup(models.Model):
+    app_integration = models.ForeignKey(AppIntegration, on_delete=models.CASCADE)
     publish_group = models.ForeignKey(PublishGroup, on_delete=models.CASCADE)
     created_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.DO_NOTHING)
 
     class Meta:
-        unique_together = ("oauth2_integration", "publish_group")
+        unique_together = ("app_integration", "publish_group")
 
 
 class Organization(models.Model):

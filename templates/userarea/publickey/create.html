@@ -1,0 +1,29 @@
+{% extends "sshock/page.html" %}
+{% load i18n %}
+{% load bootstrap4 %}
+{% load render_bundle from webpack_loader %}
+
+{% block content_title %}
+    <h1>{% trans "Public SSH-Key Erstellen" %}</h1>
+{% endblock %}
+
+
+{% block breadcrumbs %}
+    <li class="breadcrumb-item"><a href="/">Home</a></li>
+    <li class="breadcrumb-item"><a href="{% url "account:publickey:list" %}">{% trans "Public SSH-Key" context "Public SSHKey List Page Breadcrumb"%}</a></li>
+    <li class="breadcrumb-item active">{% trans "Erstellen" context "Public SSHKey Create Page Breadcrumb"%}</li>
+{% endblock %}
+
+{% block inner_content %}
+    <div class="modal" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            {% direct_partitial ".modal-content"  %}
+        </div>
+    </div>
+{% endblock %}
+
+{% block body_inner %}
+    {% render_bundle "userarea_publickey_delete" "css" %}
+    {{ block.super }}
+    {% render_bundle "userarea_publickey_delete" "js" %}
+{% endblock %}

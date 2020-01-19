@@ -11,18 +11,16 @@
           <div class="modal-dialog">
             <div class="modal-content">
               <div class="modal-header">
-                <h4 class="modal-title">{% trans "Delete OAuth2 Integration" %}</h4>
+                <h4 class="modal-title">{% trans "Delete SSH-Publickey" %}</h4>
               </div>
               <div class="modal-body">
-                <p>{% trans "Do you like Realy to delete this oauth2 integration?" %}</p>
-                <p>{% trans "Name:" %} {{ object.display_name }}({{ object.url }})</p>
+                <p>{% trans "Do you like Realy to delete this publickey?" %}</p>
               </div>
               <div class="modal-footer">
                 <form method="POST" action="">
                     {% csrf_token %}
-
-                    <a href="{% url "publish:oauth2integration:list" %}" class="btn btn-default pull-left" data-dismiss="modal">{% trans "Cancle" context "OAuth2Integration Delete Cancle button "%}</a>
-                    <button type="submit" class="btn btn-danger">{% trans "Delete" context "Publish Group delete Button" %}</button>
+                    <a href="{% url "userarea:publickey:detail" object.pk %}" class="btn btn-default pull-left" data-dismiss="modal">{% trans "Cancle" context "SSH-PublicKey Delete Cancle button "%}</a>
+                    <button type="submit" class="btn btn-danger">{% trans "Delete" context "KeyGroup delete Button" %}</button>
                 </form>
 
               </div>

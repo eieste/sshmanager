@@ -1,9 +1,12 @@
 {% extends "sshock/page.html" %}
 {% load static %}
 {% load i18n %}
+{% load webpack_loader %}
 
 
 {% block body_outer %}
+    {% render_bundle "main" "css" %}
+
     <body class="hold-transition login-page">
         <div class="login-box">
           <div class="login-logo">
@@ -50,9 +53,6 @@
           <!-- /.login-box-body -->
         </div>
         <!-- /.login-box -->
-
-   <script type="text/javascript" src="{% static "main.css" %}"></script>
-
-
+        {% render_bundle "main" "js" %}
     </body>
 {% endblock %}

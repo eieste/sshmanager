@@ -1,95 +1,59 @@
 {% extends "sshock/page.html" %}
 {% load i18n %}
 {% load render_bundle from webpack_loader %}
+{% load partitialajax %}
 
 {% block content_title %}
     <h1>{% trans "Device List" %}</h1>
 {% endblock %}
 
-{% block inner_content %}
-    {% if perms.userarea.view_device or perms.userarea.add_device %}
-        <div class="row">
-            <div class="col-md-12">
-                {% if perms.userarea.add_device %}
-                    <div class="card">
-                        <div class="card-header">
-                            {% trans "Add Device" %}
-                        </div>
-                        <div class="card-body">
-                            <button class="btn btn-primary" data-toggle="modal" data-target="#baseModal" data-partitial-url="{% url "userarea:device:create" %}" data-partitial-trigger="click">
-                                {% trans "Add a Device" context "Add device button" %}
-                            </button>
-                        </div>
-                    </div>
-                {% endif %}
-
-                <div class="card">
-                    <div class="card-header">
-                        <h3 class="card-title">{% trans "Device List" %}</h3>
-                    </div>
-                    <div class="card-body table-responsive no-padding">
-                        <table class="table table-hover">
-                            <thead>
-                                <tr>
-                                    <th scope="col" class="content">{% trans "Application" %}</th>
-                                    <th scope="col" class="action text-right" data-container="body" data-toggle="popover" data-placement="top" data-trigger="hover" data-content="{% trans "You had created this Device. (M means 'me')" context "Visibility Columns" %}">{% trans "M" %}</th>
-                                    <th scope="col" class="action text-right" data-container="body" data-toggle="popover" data-placement="top" data-trigger="hover" data-content="{% trans "This Device is visible in the hole Organization. (O means 'Organization')" context "Visibility Columns" %}">{% trans "O" %}</th>
-                                    <th scope="col" class="action text-right" data-container="body" data-toggle="popover" data-placement="top" data-trigger="hover" data-content="{% trans "This Device is global visible. (G means 'global')" context "Visibility Columns" %}">{% trans "G" %}</th>
-                                    <th scope="col" class="action text-right">{% trans "Action" %}</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {% for device in object_list %}
-                                    <tr>
-                                        <td class="content">{{ device.display_name }}</td>
-                                        <td class="action text-right" >
-                                            {% if device.created_by is user %}
-                                                <i class="far fa-check-circle text-green"></i>
-                                            {% else %}
-                                                <i class="far fa-times-circle text-danger"></i>
-                                            {% endif %}
-                                        </td>
-                                        <td class="action text-right">
-                                            {% if device.organizational_visibility is True %}
-                                                <i class="far fa-check-circle text-green"></i>
-                                            {% else %}
-                                                <i class="far fa-times-circle text-danger"></i>
-                                            {% endif %}
-                                        </td>
-                                        <td class="action text-right">
-                                            {% if device.global_visibility is True %}
-                                                <i class="far fa-check-circle text-green"></i>
-                                            {% else %}
-                                                <i class="far fa-times-circle text-danger"></i>
-                                            {% endif %}
-                                        </td>
-                                        <td class="action text-right">
-                                            <div class="btn-group btn-group-sm">
-                                                <a href="{% url "userarea:device:delete" device.pk %}" class="btn btn-danger{% if not perms.adminarea.organization_admin or user is not device.created_by%}disabled{% endif %}"><i class="fas fa-trash"></i></a>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                {% empty %}
-                                    <tr>
-                                        <td colspan="2">
-                                            {% trans "no devices available yet" context "empty device list notice" %}
-                                        </td>
-                                    </tr>
-                                {% endfor %}
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-        </div>
-    {% endif %}
+{% block breadcrumbs %}
+    <li class="breadcrumb-item"><a href="/">Home</a></li>
+    <li class="breadcrumb-item active"><a href="{% url "userarea:device:list" %}">{% trans "Device Übersicht" context "Device Overview Breadcrumbs" %}</a></li>
 {% endblock %}
 
 
+{% block inner_content %}
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header">
+                    {% trans "Add Device" %}
+                </div>
+                <div class="card-body">
+                    <a class="btn btn-primary" id="device-create-button" data-toggle="modal" data-target="#baseModal" data-partitial-url="{% url "userarea:device:create" %}" href="{% url "userarea:device:create" %}">
+                        {% trans "Add a Device" context "Add device button" %}
+                    </a>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">{% trans "Device Listtj" %}</h3>
+                </div>
+                <div class="card-body table-responsive no-padding">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th scope="col" class="content">{% trans "Application" %}</th>
+                                <th scope="col" class="action text-right" data-container="body" data-toggle="popover" data-placement="top" data-trigger="hover" data-content="{% trans "You had created this Device. (M means 'me')" context "Visibility Columns" %}">{% trans "M" %}</th>
+                                <th scope="col" class="action text-right" data-container="body" data-toggle="popover" data-placement="top" data-trigger="hover" data-content="{% trans "This Device is visible in the hole Organization. (O means 'Organization')" context "Visibility Columns" %}">{% trans "O" %}</th>
+                                <th scope="col" class="action text-right" data-container="body" data-toggle="popover" data-placement="top" data-trigger="hover" data-content="{% trans "This Device is global visible. (G means 'global')" context "Visibility Columns" %}">{% trans "G" %}</th>
+                                <th scope="col" class="action text-right">{% trans "Action" %}</th>
+                            </tr>
+                        </thead>
+                        {% direct_partitial "tbody#device-list-partitial" %}
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
 {% block body_inner %}
+    {% render_bundle "userarea_device_list" "css" %}
     {{ block.super }}
     {% render_bundle "userarea_device_list" "js" %}
-    {% render_bundle "userarea_device_list" "css" %}
 
     {% include "sshock/components/modal/index.html" %}
 {% endblock %}

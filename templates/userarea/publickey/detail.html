@@ -35,7 +35,7 @@
                     <ul class="list-group">
                         {% for item in object.sshpublickeytokeygroup_set.all %}
                             <li class="list-group-item">
-                                <a href="{% url "account:device-and-keygroup:keygroup:detail" item.key_group.pk %}">
+                                <a href="{% url "userarea:keygroup:detail" item.key_group.pk %}">
                                     {{ item.key_group.display_name }}
                                 </a>
                                 <a class="float-right" href="{% url "account:publickey:keygroup-dissociate" item.pk %}">

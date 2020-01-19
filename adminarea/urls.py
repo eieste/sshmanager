@@ -1,17 +1,18 @@
 from django.urls import path, include
 
-from adminarea.views import OAuth2IntegrationListView, \
-    OAuth2IntegrationCreateView, OAuth2IntegrationDeleteView
+from adminarea.views import AppIntegrationListView, \
+    AppIntegrationCreateView, AppIntegrationDeleteView, AppIntegrationDetailView
 
 app_name = "adminarea"
 
 oauth2integration_urlpatterns = ([
-    path("list", OAuth2IntegrationListView.as_view(), name="list"),
-    path("create", OAuth2IntegrationCreateView.as_view(), name="create"),
-    path("delete/<pk>", OAuth2IntegrationDeleteView.as_view(), name="delete"),
-], "oauth2integration")
+    path("list", AppIntegrationListView.as_view(), name="list"),
+    path("create", AppIntegrationCreateView.as_view(), name="create"),
+    path("delete/<pk>", AppIntegrationDeleteView.as_view(), name="delete"),
+    path("detail/<pk>", AppIntegrationDetailView.as_view(), name="detail"),
+], "appintegration")
 
 urlpatterns = [
-    path('oauth2integration/', include(oauth2integration_urlpatterns, namespace="oauth2integration")),
+    path('appintegration/', include(oauth2integration_urlpatterns, namespace="appintegration")),
 ]
 

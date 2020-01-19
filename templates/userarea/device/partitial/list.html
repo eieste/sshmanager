@@ -1,0 +1,40 @@
+{% load i18n %}
+{% load render_bundle from webpack_loader %}
+
+{% for device in object_list %}
+    <tr>
+        <td class="content">{{ device.display_name }}</td>
+        <td class="action text-right" >
+            {% if device.created_by.pk is user.pk %}
+                <i class="far fa-check-circle text-green"></i>
+            {% else %}
+                <i class="far fa-times-circle text-danger"></i>
+            {% endif %}
+        </td>
+        <td class="action text-right">
+            {% if device.organizational_visibility is True %}
+                <i class="far fa-check-circle text-green"></i>
+            {% else %}
+                <i class="far fa-times-circle text-danger"></i>
+            {% endif %}
+        </td>
+        <td class="action text-right">
+            {% if device.global_visibility is True %}
+                <i class="far fa-check-circle text-green"></i>
+            {% else %}
+                <i class="far fa-times-circle text-danger"></i>
+            {% endif %}
+        </td>
+        <td class="action text-right">
+            <div class="btn-group btn-group-sm">
+                <a href="{% url "userarea:device:delete" device.pk %}" class="btn btn-danger device-delete-button{% if not perms.adminarea.organization_admin or user is not device.created_by %}{% endif %}"><i class="fas fa-trash"></i></a>
+            </div>
+        </td>
+    </tr>
+{% empty %}
+    <tr>
+        <td colspan="2">
+            {% trans "no devices available yet" context "empty device list notice" %}
+        </td>
+    </tr>
+{% endfor %}

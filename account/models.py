@@ -1,7 +1,7 @@
 from django.contrib.auth.models import AbstractUser
 from django.db import models
 
-from adminarea.models import OAUTH2_INTEGRATIONS
+from adminarea.models import APP_INTEGRATIONS
 
 
 class AccountUser(AbstractUser):
@@ -18,5 +18,5 @@ class AccountUser(AbstractUser):
 
 
 class OAuth2Account(models.Model):
-    platform = models.CharField(choices=OAUTH2_INTEGRATIONS, max_length=255)
+    platform = models.CharField(choices=APP_INTEGRATIONS, max_length=255)
     code = models.CharField(max_length=255)

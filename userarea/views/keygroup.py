@@ -3,38 +3,49 @@ from django.shortcuts import redirect
 from django.urls import reverse_lazy
 from django.utils.text import slugify
 from django.views.generic import CreateView, DetailView, DeleteView, ListView
-
+from partitialajax.mixin import CreatePartitialAjaxMixin, ListPartitialAjaxMixin, DeletePartitialAjaxMixin, UpdatePartitialAjaxMixin, DetailPartitialAjaxMixin
 from userarea.forms import KeyGroupCreateForm, AssignPublishGroupToKeyGroupForm
 from userarea.models import KeyGroup
 from superarea.models import PublishGroup, PublishGroupToKeyGroup
+from django.http import HttpResponse
 
 
-class KeyGroupDeleteView(LoginRequiredMixin, PermissionRequiredMixin, DeleteView):
+class KeyGroupDeleteView(LoginRequiredMixin, PermissionRequiredMixin, DeletePartitialAjaxMixin, DeleteView):
     template_name = "userarea/keygroup/delete.html"
     model = KeyGroup
     permission_required = ["userarea.delete_keygroup"]
-    success_url = reverse_lazy("account:device-and-keygroup:list")
+    success_url = reverse_lazy("userarea:keygroup:list")
+    partitial_list = {
+        ".modal-content": "userarea/keygroup/partitial/delete.html"
+    }
 
 
-class KeyGroupCreateView(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
+class KeyGroupCreateView(LoginRequiredMixin, PermissionRequiredMixin, CreatePartitialAjaxMixin, CreateView):
     permission_required = ["userarea.add_keygroup"]
     template_name = "userarea/keygroup/create.html"
     model = KeyGroup
     form_class = KeyGroupCreateForm
-    success_url = reverse_lazy("account:device-and-keygroup:list")
+    success_url = reverse_lazy("userarea:keygroup:list")
+    partitial_list = {
+        ".modal-content": "userarea/keygroup/partitial/create.html"
+    }
 
     def form_valid(self, form):
         form.instance.created_by = self.request.user
         form.instance.name = slugify(form.cleaned_data.get("display_name"))
+
         return super(KeyGroupCreateView, self).form_valid(form)
 
 
-class KeyGroupDetailView(LoginRequiredMixin, DetailView):
-    template_name = "userarea/keygroup/detail.html"
+class KeyGroupUpdateView(LoginRequiredMixin, DetailPartitialAjaxMixin, DetailView):
+    template_name = "userarea/keygroup/edit.html"
     model = KeyGroup
+    partitial_list = {
+        ".modal-content": "userarea/keygroup/partitial/edit.html"
+    }
 
-    def get_context_data(self, **kwargs):
-        ctx = super(KeyGroupDetailView, self).get_context_data(**kwargs)
+    def get_direct_context_data(self, *args, **kwargs):
+        ctx = super().get_direct_context_data(*args, **kwargs)
 
         form = False
         if not self.request.method == "POST":
@@ -47,9 +58,13 @@ class KeyGroupDetailView(LoginRequiredMixin, DetailView):
             form.fields["publish_groups"].queryset = PublishGroup.objects.filter(pk__in=self.request.user.usertopublishgroup_set.all().values_list("publish_group", flat=True))
             form.initial["publish_groups"] = PublishGroup.objects.filter(
                 pk__in=self.request.user.publishgrouptokeygroup_set.all().values_list("publish_group", flat=True))
-            ctx["publish_group_form"] = form
+            ctx["key_group_form"] = form
 
         return ctx
+
+    def ajax_get(self, *args, **kwargs):
+        foo = super().ajax_get(*args, **kwargs)
+        return foo
 
     def post(self, *args, **kwargs):
         self.object = self.get_object()
@@ -74,9 +89,12 @@ class KeyGroupDetailView(LoginRequiredMixin, DetailView):
         for publish_group in publish_groups:
             PublishGroupToKeyGroup.objects.get_or_create(publish_group=publish_group, key_group=self.object, created_by=self.request.user)
 
-        return redirect(reverse_lazy("account:device-and-keygroup:keygroup:detail", args=(self.object.pk,)))
+        return redirect(reverse_lazy("userarea:keygroup:detail", args=(self.object.pk,)))
 
 
-class KeyGroupListView(LoginRequiredMixin, ListView):
+class KeyGroupListView(LoginRequiredMixin, ListPartitialAjaxMixin, ListView):
     model = KeyGroup
     template_name = "userarea/keygroup/list.html"
+    partitial_list = {
+        "tbody#keygroup-list-partitial": "userarea/keygroup/partitial/list.html"
+    }

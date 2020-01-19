@@ -5,7 +5,7 @@
     {% if not request.user.is_superuser %}
         {% if perms.userarea.add_publickey or perms.userarea.view_publickey %}
             <li class="nav-item has-treeview">
-                <a href="{% url "account:publickey:list" %}" class="nav-link">
+                <a href="{% url "userarea:publickey:list" %}" class="nav-link">
                     <i class="nav-icon fas fa-tachometer-alt"></i>
                     <p>
                         {% trans "Public Key" %}
@@ -37,12 +37,12 @@
         </li>
     {% endif %}
 
-    {% if perms.adminarea.add_oauth2integration %}
+    {% if perms.adminarea.add_appintegration %}
         <li class="nav-item has-treeview">
-            <a href="{% url "adminarea:oauth2integration:list" %}" class="nav-link">
+            <a href="{% url "adminarea:appintegration:list" %}" class="nav-link">
                 <i class="nav-icon fas fa-tachometer-alt"></i>
                 <p>
-                    {% trans "OAuth2 Integrationen" %}
+                    {% trans "App Integrationen" %}
                 </p>
             </a>
         </li>

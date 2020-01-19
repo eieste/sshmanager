@@ -1,1 +1,1 @@
-from .oauth2integration import *
+from .appintegration import *

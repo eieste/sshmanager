@@ -9,27 +9,32 @@ from django.shortcuts import redirect
 from django.urls import reverse_lazy
 from django.views.generic import CreateView
 from django.views.generic import ListView, DetailView, DeleteView, FormView
-
+from partitialajax.mixin import ListPartitialAjaxMixin, CreatePartitialAjaxMixin, DeletePartitialAjaxMixin
 from userarea.forms import PublicKeyCreateForm, AssignKeyGroupToPublicKeyForm
 from userarea.models import KeyGroup, PublicKey, PublicKeyToKeyGroup
 from sshock.contrib import get_master_user
 
 
-class PublicKeyListView(LoginRequiredMixin, ListView):
-    template_name = "userarea/ublickey/list.html"
+class PublicKeyListView(LoginRequiredMixin, ListPartitialAjaxMixin, ListView):
+    template_name = "userarea/publickey/list.html"
     model = PublicKey
+    partitial_list = {
+        "tbody#publickey-list-partitial": "userarea/publickey/partitial/list.html"
+    }
 
     def get_queryset(self):
         qs = super(PublicKeyListView, self).get_queryset()
-
         return qs.filter(created_by=self.request.user)
 
 
-class PublicKeyCreateView(LoginRequiredMixin, CreateView):
+class PublicKeyCreateView(LoginRequiredMixin, CreatePartitialAjaxMixin, CreateView):
     template_name = "userarea/publickey/create.html"
     model = PublicKey
     form_class = PublicKeyCreateForm
     success_url = reverse_lazy("userarea:publickey:list")
+    partitial_list = {
+        ".modal-content": "userarea/publickey/partitial/create.html"
+    }
 
     def get_form(self, form_class=None):
         form = super(PublicKeyCreateView, self).get_form(form_class)
