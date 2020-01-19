@@ -1,6 +1,7 @@
 import PartitialAjax from "django-partitialajax";
 import $ from "jquery";
 import sendForm from "./formModal";
+import {getCookie} from "../../../partitialajax/src/js/contrib";
 
 /**
  * Setup Crud Interface (Create Update Delete)
@@ -10,15 +11,6 @@ import sendForm from "./formModal";
  */
 function setupCrud(list_partitial, create_partitial, delete_button_selector){
 
-    function errorHandler(info){
-        $.toast({
-          title: gettext("Internal Server Error"),
-          content: gettext("This request could be satisfied"),
-          type: 'danger',
-          delay: 3000,
-        });
-    }
-
     function deleteModal(url) {
         let delete_partitial = new PartitialAjax({
             "url": url,
@@ -27,9 +19,47 @@ function setupCrud(list_partitial, create_partitial, delete_button_selector){
         }, {
             "onHandeldRemoteData": function (option) {
                 $("#baseModal").modal();
-                sendForm(option, deviceListPartitial)
+
+                $(option.partitial_ajax.options.element).find("[type=submit]").on("click", function(e){
+                    $.ajax({
+                        type: 'POST',
+                        url: $(option.partitial_ajax.options.element).find("form").attr("action"),
+                        data: $(option.partitial_ajax.options.element).find("form").serialize(),
+                        header: {
+                            "X-CSRFToken": getCookie("csrftoken")
+                        },
+                        success: function(response) {
+                            $(option.partitial_ajax.options.element).modal('hide');
+                            list_partitial.getFromRemote();
+                        },
+                        error: function(){
+                            $.toast({
+                              title: gettext("Internal Server Error"),
+                              content: gettext("This request could be satisfied"),
+                              type: 'danger',
+                              delay: 3000,
+                            });
+                        }
+                    });
+                    e.preventDefault();
+                });
             },
-            "onRemoteError": errorHandler
+            "onRemoteError": function(info){
+                $.toast({
+                  title: gettext("Internal Server Error"),
+                  content: gettext("This request could be satisfied"),
+                  type: 'danger',
+                  delay: 3000,
+                });
+            },
+            "onResponseError": function(info){
+                $.toast({
+                  title: gettext("Internal Server Error"),
+                  content: gettext("This request could be satisfied"),
+                  type: 'danger',
+                  delay: 3000,
+                });
+            },
         });
     }
 
@@ -46,9 +76,39 @@ function setupCrud(list_partitial, create_partitial, delete_button_selector){
     }catch (e) {
         console.info("CRUD: Cant find delete Buttons", e)
     }
+
     create_partitial.register("onHandeldRemoteData", function(option){
-        sendForm(option, deviceListPartitial);
-        list_partitial.getFromRemote();
+        $(option.partitial_ajax.options.element).find("[type=submit]").on("click", function(e){
+            $.ajax({
+                type: 'POST',
+                url: $(option.partitial_ajax.options.element).find("form").attr("action"),
+                data: $(option.partitial_ajax.options.element).find("form").serialize(),
+                header: {
+                    "X-CSRFToken": getCookie("csrftoken")
+                },
+                success: function(response) {
+                    $(option.partitial_ajax.options.element).modal('hide');
+                    list_partitial.getFromRemote();
+                },
+                error: function(){
+                    $.toast({
+                      title: gettext("Internal Server Error"),
+                      content: gettext("This request could be satisfied"),
+                      type: 'danger',
+                      delay: 3000,
+                    });
+                }
+            });
+            e.preventDefault();
+        });
+    });
+
+    create_partitial.register("onRemoteError", function(option){
+        console.log(option);
+    });
+
+    create_partitial.register("onResponseError", function(option){
+        console.log(option);
     });
 
     // Register Load Buttons
@@ -56,7 +116,14 @@ function setupCrud(list_partitial, create_partitial, delete_button_selector){
         registerDeleteButton(info.partitial_ajax.options.element);
     });
 
-    list_partitial.register("onRemoteError", errorHandler);
+    list_partitial.register("onRemoteError", function(info){
+        $.toast({
+          title: gettext("Internal Server Error"),
+          content: gettext("This request could be satisfied"),
+          type: 'danger',
+          delay: 3000,
+        });
+    });
 
 }
 

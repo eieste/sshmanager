@@ -7,8 +7,7 @@ from userarea.forms import DeviceCreateForm
 from userarea.models import Device
 
 
-class DeviceCreateView(LoginRequiredMixin, PermissionRequiredMixin, CreatePartitialAjaxMixin, CreateView):
-    permission_required = ["userarea.add_device"]
+class DeviceCreateView(LoginRequiredMixin, CreatePartitialAjaxMixin, CreateView):
     template_name = "userarea/device/create.html"
     model = Device
     form_class = DeviceCreateForm
@@ -25,8 +24,7 @@ class DeviceCreateView(LoginRequiredMixin, PermissionRequiredMixin, CreatePartit
         return super(DeviceCreateView, self).form_valid(form)
 
 
-class DeviceDeleteView(LoginRequiredMixin, PermissionRequiredMixin, DeletePartitialAjaxMixin, DeleteView):
-    permission_required = ["userarea.delete_device"]
+class DeviceDeleteView(LoginRequiredMixin, DeletePartitialAjaxMixin, DeleteView):
     template_name = "userarea/device/delete.html"
     model = Device
     success_url = reverse_lazy("userarea:device:list")
@@ -35,8 +33,7 @@ class DeviceDeleteView(LoginRequiredMixin, PermissionRequiredMixin, DeletePartit
     }
 
 
-class DeviceListView(LoginRequiredMixin, PermissionRequiredMixin, ListPartitialAjaxMixin, ListView):
-    permission_required = ["userarea.view_device"]
+class DeviceListView(LoginRequiredMixin, ListPartitialAjaxMixin, ListView):
     model = Device
     template_name = "userarea/device/list.html"
 

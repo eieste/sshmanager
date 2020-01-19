@@ -15,7 +15,6 @@
         {% endif %}
     {% endif %}
 
-    {% if perms.userarea.add_device or perms.userarea.view_device %}
         <li class="nav-item has-treeview">
             <a href="{% url "userarea:device:list" %}" class="nav-link">
                 <i class="nav-icon fas fa-tachometer-alt"></i>
@@ -24,9 +23,7 @@
                 </p>
             </a>
         </li>
-    {% endif %}
 
-    {% if perms.userarea.add_keygroup or perms.userarea.view_keygroup %}
         <li class="nav-item has-treeview">
             <a href="{% url "userarea:keygroup:list" %}" class="nav-link">
                 <i class="nav-icon fas fa-tachometer-alt"></i>
@@ -35,9 +32,7 @@
                 </p>
             </a>
         </li>
-    {% endif %}
 
-    {% if perms.adminarea.add_appintegration %}
         <li class="nav-item has-treeview">
             <a href="{% url "adminarea:appintegration:list" %}" class="nav-link">
                 <i class="nav-icon fas fa-tachometer-alt"></i>
@@ -46,9 +41,7 @@
                 </p>
             </a>
         </li>
-    {% endif %}
 
-    {% if perms.superarea.add_publishgroup %}
         <li class="nav-item has-treeview">
             <a href="{% url "superarea:publishgroup:list" %}" class="nav-link">
                 <i class="nav-icon fas fa-tachometer-alt"></i>
@@ -57,9 +50,7 @@
                 </p>
             </a>
         </li>
-    {% endif %}
 
-    {% if perms.superarea.add_hostgroup or perms.superarea.view_hostgroup %}
         <li class="nav-item has-treeview">
             <a href="{% url "superarea:hostgroup:list" %}" class="nav-link">
                 <i class="nav-icon fas fa-tachometer-alt"></i>
@@ -68,9 +59,7 @@
                 </p>
             </a>
         </li>
-    {% endif %}
 
-    {% if perms.superarea.add_host or perms.superarea.view_host %}
         <li class="nav-item has-treeview">
             <a href="{% url "superarea:hostgroup:list" %}" class="nav-link">
                 <i class="nav-icon fas fa-tachometer-alt"></i>
@@ -79,7 +68,6 @@
                 </p>
             </a>
         </li>
-    {% endif %}
 
     {% if user.is_staff or user.is_superuser %}
         <li class="nav-item has-treeview">
