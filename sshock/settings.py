@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     'impersonate',
     'webpack_loader',
     'django_celery_results',
+    'django_ace',
 ]
 # Application definition
 
@@ -74,6 +75,8 @@ TEMPLATES = [
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
             ],
+            "debug": DEBUG,
+            "string_if_invalid": '<< MISSING VARIABLE "%s" >>' if DEBUG else "",
         },
     },
 ]

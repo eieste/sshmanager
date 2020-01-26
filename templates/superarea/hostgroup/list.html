@@ -1,9 +1,13 @@
 {% extends "sshock/page.html" %}
 {% load i18n %}
+{% load partitialajax %}
+{% load render_bundle from webpack_loader %}
+
+
 
 
 {% block content_title %}
-    <h1>{% trans "Host List" %}</h1>
+    <h1>{% trans "Hostgroup List" %}</h1>
 {% endblock %}
 
 {% block inner_content %}
@@ -17,7 +21,9 @@
                 <div class="card-body">
                     <h5 class="card-title">{% trans "" %}</h5>
                     <p class="card-text">{% trans "" %}</p>
-                    <a href="{% url "publish:host:create" %}" class="btn btn-primary">{% trans "Server Hinzufügen" %}</a>
+                    <a href="{% url "superarea:hostgroup:create" %}" data-partitial-activate="true" class="btn btn-primary" id="hostgroup-create-button" data-toggle="modal" data-target="#baseModal">
+                        {% trans "Create Hostgroup" context "Add appintegration button" %}
+                    </a>
                 </div>
             </div>
             <div class="card">
@@ -32,28 +38,19 @@
                                 <th>{% trans "Server" %}</th>
                             </tr>
                         </thead>
-                        <tbody>
-                            {% for server in object_list %}
-                                <tr>
-                                    <td>{{ server.display_name }} - {{ server.url }}</td>
-                                    <td>
-
-                                        <div class="btn-group btn-group-sm">
-                                            <a href="{% url "publish:appintegration:delete" oauth2integration.pk %}" class="btn btn-danger"><i class="fas fa-trash"></i></a>
-                                        </div>
-                                    </td>
-                                </tr>
-                            {% empty %}
-                                <tr>
-                                    <td colspan="2">
-                                        {% trans "Keine OAuth2 Integrationen eingetragen" %}
-                                    </td>
-                                </tr>
-                            {% endfor %}
-                        </tbody>
+                        {% direct_partitial "tbody#hostgroup-list-partitial" %}
                     </table>
                 </div>
             </div>
         </div>
     </div>
+{% endblock %}
+
+
+{% block body_inner %}
+    {% render_bundle "superarea_hostgroup_list" "css" %}
+    {{ block.super }}
+    {% render_bundle "superarea_hostgroup_list" "js" %}
+
+    {% include "sshock/components/modal/index.html" %}
 {% endblock %}

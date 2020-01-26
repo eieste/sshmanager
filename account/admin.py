@@ -8,7 +8,7 @@ from django.utils.translation import gettext, gettext_lazy as _
 
 # Register your models here.
 class AccountUserAdmin(UserAdmin):
-    fieldsets = list(UserAdmin.fieldsets) +        [(_('Organization'), {'fields': ('organization',)})]
+    fieldsets = list(UserAdmin.fieldsets) + [(_('Organization'), {'fields': ('organization',)})]
 
     def get_list_display(self, request):
         list_display = list(self.list_display)

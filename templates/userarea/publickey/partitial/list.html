@@ -5,12 +5,12 @@
     <tr>
         <td>{{ key.pk }}</td>
         <td>{{ key.device.display_name }}</td>
-        <td>-/-</td>
+        <td>{{ key.get_all_group_names|join:" " }}</td>
         <td>{{ key.name }}</td>
         <td><code>{{ key.fingerprint }}</code></td>
         <td>
             <div class="btn-group btn-group-sm">
-                <a href="{% url "userarea:publickey:delete" key.pk %}" class="btn btn-info"><i class="fas fa-eye"></i></a>
+                <a href="{% url "userarea:publickey:detail" key.pk %}" class="btn btn-info publickey-detail-button"><i class="fas fa-eye"></i></a>
                 <a href="{% url "userarea:publickey:delete" key.pk %}" class="btn btn-danger publickey-delete-button"><i class="fas fa-trash"></i></a>
             </div>
         </td>
@@ -18,7 +18,7 @@
 {% empty %}
     <tr>
         <td colspan="5" class="text-center">
-            {% trans "SSH-Public Keylist is Empty" %}
+            {% trans "Publickey list is Empty" %}
         </td>
     </tr>
 {% endfor %}

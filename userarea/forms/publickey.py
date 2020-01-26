@@ -4,10 +4,12 @@ from Crypto.PublicKey import RSA
 from userarea.models import KeyGroup
 from superarea.models import PublishGroup
 from django.utils.translation import pgettext as _
+from django_ace import AceWidget
 
 
 class PublicKeyCreateForm(forms.ModelForm):
     key_groups = forms.ModelMultipleChoiceField(queryset=KeyGroup.objects.none(), required=False)
+
 
     class Meta:
         fields = ("name", "ssh_public_key", "device")

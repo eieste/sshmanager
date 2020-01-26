@@ -5,6 +5,7 @@ import setupCrud from "../../../js/crud";
 
 $(function(){
 
+  $("[data-toggle='popover']").popover();
   PartitialAjax.initialize();
 
   setupCrud(

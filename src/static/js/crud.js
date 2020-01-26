@@ -9,9 +9,9 @@ import {getCookie} from "../../../partitialajax/src/js/contrib";
  * @param create_partitial Partitial Object of Create (Button)
  * @param delete_button_selector selector for all delete buttons inside of list
  */
-function setupCrud(list_partitial, create_partitial, delete_button_selector){
+function setupCrud(list_partitial, create_partitial, delete_button_selector, detail_button_selector=null){
 
-    function deleteModal(url) {
+    function subModal(url) {
         let delete_partitial = new PartitialAjax({
             "url": url,
             "element": document.getElementById("baseModal"),
@@ -66,9 +66,25 @@ function setupCrud(list_partitial, create_partitial, delete_button_selector){
     function registerDeleteButton(list_element){
        $(list_element).find(delete_button_selector).on("click", function(event){
             let url = $(this).attr("href");
-            deleteModal(url);
+            subModal(url);
             event.preventDefault();
        });
+    }
+
+    function registerDetailButton(list_element){
+        $(list_element).find(detail_button_selector).on("click", function(event){
+            let url = $(this).attr("href");
+            subModal(url);
+            event.preventDefault();
+        });
+    }
+
+    if(detail_button_selector != null){
+        try{
+            registerDetailButton(list_partitial.options.element);
+        }catch (e) {
+            console.info("CRUD: Cant find detail Buttons", e)
+        }
     }
 
     try{

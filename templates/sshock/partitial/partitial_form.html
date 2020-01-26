@@ -1,0 +1,18 @@
+{% load i18n %}
+{% load bootstrap4 %}
+
+<form action="{{ partitial_page.partitial_form_url }}" method="POST">
+    <div class="modal-header">
+        <h4 class="modal-title">{{ partitial_page.partitial_form_title }}</h4>
+    </div>
+    <div class="modal-body">
+        {% csrf_token %}
+        {% if form %}
+            {% bootstrap_form form %}
+        {% endif %}
+    </div>
+    <div class="modal-footer">
+        <a href="{{ partitial_page.partitial_cancel_url }}" class="btn btn-default pull-left" data-dismiss="modal">{% trans "Cancel" context "Publishgroup Delete Cancel button "%}</a>
+        <button type="submit" class="btn btn-danger">{% trans "Create" context "Publish Group create Button" %}</button>
+    </div>
+</form>

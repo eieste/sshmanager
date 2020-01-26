@@ -23,11 +23,10 @@ class Configuration(models.Model):
         return f"{self.key}: {self.value}"
 
 
-class LinkedToMeta(models.Model):
+class EntryMeta(models.Model):
     """
         Add fields that allowes to define for which user this dataentry is
     """
-    organization = models.ForeignKey("adminarea.Organization", on_delete=models.DO_NOTHING)
     created_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.DO_NOTHING)
     created_at = models.DateTimeField(auto_now_add=True)
 
@@ -35,12 +34,12 @@ class LinkedToMeta(models.Model):
         abstract = True
 
 
-class VisibleToMeta(models.Model):
+class VisibilityMeta(models.Model):
     """
         Add fields that descripes if the current entry is visible for all sshock users or is it only visible for all users at same organization
     """
     organizational_visibility = models.BooleanField(default=False)
-    global_visibility = models.BooleanField(default=False)
+    organization = models.ForeignKey("adminarea.Organization", on_delete=models.DO_NOTHING)
 
     @classmethod
     def filter_by_visibility(cls, request):

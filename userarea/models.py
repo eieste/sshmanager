@@ -3,15 +3,15 @@ from django.conf import settings
 from django.contrib.auth.models import AbstractUser
 from sshock.contrib import get_master_user
 from adminarea.models import APP_INTEGRATIONS
-from sshock.models import LinkedToMeta, VisibleToMeta
+from sshock.models import EntryMeta, VisibilityMeta
 
 
-class OAuth2Account(models.Model):
+class OAuth2Account(EntryMeta, models.Model):
     platform = models.CharField(choices=APP_INTEGRATIONS, max_length=255)
     code = models.CharField(max_length=255)
 
 
-class Device(LinkedToMeta, VisibleToMeta, models.Model):
+class Device(EntryMeta, VisibilityMeta, models.Model):
     """
         Create a Device entry.
         Each device can be assigned to multiple SSHPublic Keys.
@@ -20,6 +20,8 @@ class Device(LinkedToMeta, VisibleToMeta, models.Model):
     name = models.SlugField(max_length=255)
     #: Device name
     display_name = models.CharField(max_length=255)
+    #: Show device to all Users
+    global_visibility = models.BooleanField(default=False)
 
     def __str__(self):
         return self.display_name
@@ -33,11 +35,10 @@ class Device(LinkedToMeta, VisibleToMeta, models.Model):
         default_permissions = ()
 
 
-class KeyGroup(models.Model):
+class KeyGroup(EntryMeta, models.Model):
     """
         Can be used to Group SSH-Keys by Projects
     """
-    created_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     name = models.SlugField(max_length=255)
     display_name = models.CharField(max_length=255)
 
@@ -50,33 +51,29 @@ class KeyGroup(models.Model):
         return False
 
 
-class PublicKey(models.Model):
+class PublicKey(EntryMeta, models.Model):
     """
         Public Keys for publish to Server or Platforms
     """
     name = models.CharField(max_length=255)
-    #: Defines the key's affiliation to the user
-    created_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     #: RFC 4716 formated SSH-Key
     ssh_public_key = models.TextField(max_length=2000)
     #: SHA256 Fingerprint of SSH-Key
     fingerprint = models.CharField(max_length=512)
-    create_at = models.DateTimeField(auto_now_add=True)
     #: defines on which device the SSH-Key was generated
     device = models.ForeignKey(Device, on_delete=models.DO_NOTHING)
 
     class Meta:
         unique_together = ('created_by', 'fingerprint',)
-        permissions = (
-            #: User can assign a device to created ssh public key
-            ("can_assign_device", "Can Assign Device to SShPublicKey"),
-        )
+
+    def get_all_group_names(self):
+        name_list = self.publickeytokeygroup_set.all().values_list("key_group").values_list("key_group__display_name", flat=True)
+        return name_list
 
 
 class PublicKeyToKeyGroup(models.Model):
     public_key = models.ForeignKey("userarea.PublicKey", on_delete=models.CASCADE)
     key_group = models.ForeignKey("userarea.KeyGroup", on_delete=models.CASCADE)
-    created_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.DO_NOTHING)
 
     class Meta:
         unique_together = ("public_key", "key_group")

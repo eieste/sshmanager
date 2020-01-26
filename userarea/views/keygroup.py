@@ -8,32 +8,31 @@ from userarea.forms import KeyGroupCreateForm, AssignPublishGroupToKeyGroupForm
 from userarea.models import KeyGroup
 from superarea.models import PublishGroup, PublishGroupToKeyGroup
 from django.http import HttpResponse
+from sshock.contrib.mixins import PartitialFormMixin
+from django.utils.translation import pgettext
 
 
-class KeyGroupDeleteView(LoginRequiredMixin, PermissionRequiredMixin, DeletePartitialAjaxMixin, DeleteView):
-    template_name = "userarea/keygroup/delete.html"
+class KeyGroupDeleteView(LoginRequiredMixin, PartitialFormMixin, DeletePartitialAjaxMixin, DeleteView):
     model = KeyGroup
-    permission_required = ["userarea.delete_keygroup"]
     success_url = reverse_lazy("userarea:keygroup:list")
-    partitial_list = {
-        ".modal-content": "userarea/keygroup/partitial/delete.html"
-    }
+    partitial_form_url = reverse_lazy("userarea:keygroup:delete")
+    partitial_bundle_name = "userarea_keygroup_delete"
+    partitial_form_title = pgettext("Modal Title", "Delete Keygroup")
+    partitial_cancel_url = reverse_lazy("userarea:keygroup:list")
 
 
-class KeyGroupCreateView(LoginRequiredMixin, PermissionRequiredMixin, CreatePartitialAjaxMixin, CreateView):
-    permission_required = ["userarea.add_keygroup"]
-    template_name = "userarea/keygroup/create.html"
+class KeyGroupCreateView(LoginRequiredMixin, PartitialFormMixin, CreatePartitialAjaxMixin, CreateView):
     model = KeyGroup
     form_class = KeyGroupCreateForm
     success_url = reverse_lazy("userarea:keygroup:list")
-    partitial_list = {
-        ".modal-content": "userarea/keygroup/partitial/create.html"
-    }
+    partitial_form_url = reverse_lazy("userarea:keygroup:create")
+    partitial_bundle_name = "userarea_keygroup_delete"
+    partitial_form_title = pgettext("Modal Title", "Create Keygroup")
+    partitial_cancel_url = reverse_lazy("userarea:keygroup:list")
 
     def form_valid(self, form):
         form.instance.created_by = self.request.user
         form.instance.name = slugify(form.cleaned_data.get("display_name"))
-
         return super(KeyGroupCreateView, self).form_valid(form)
 
 

@@ -1,14 +1,21 @@
 from django.contrib import admin
 from django.utils.text import slugify
-from userarea.models import PublicKey, KeyGroup, Device
+from userarea.models import PublicKey, KeyGroup, Device, PublicKeyToKeyGroup
 
 
 # Register your models here.
 class PublicKeyAdmin(admin.ModelAdmin):
-    list_display = ("created_by", "ssh_public_key", "fingerprint", "create_at", "device")
+    list_display = ("created_by", "ssh_public_key", "fingerprint", "created_at", "device")
 
 
 admin.site.register(PublicKey, PublicKeyAdmin)
+
+
+class PublicKeyToKeyGroupAdmin(admin.ModelAdmin):
+    list_display = ("key_group","public_key")
+
+
+admin.site.register(PublicKeyToKeyGroup, PublicKeyToKeyGroupAdmin)
 
 
 class KeyGroupAdmin(admin.ModelAdmin):

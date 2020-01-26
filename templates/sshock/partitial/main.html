@@ -5,19 +5,17 @@
 {% load partitialajax %}
 
 {% block content_title %}
-    <h1>{% trans "Create Device" %}</h1>
+    <h1>{% trans partitial_page.partitial_form_title %}</h1>
 {% endblock %}
 
 {% block inner_content %}
-    <div class="modal" tabindex="-1" role="dialog">
         <div class="modal-dialog" role="document">
             {% direct_partitial ".modal-content"  %}
         </div>
-    </div>
 {% endblock %}
 
 {% block body_inner %}
-    {% render_bundle "userarea_device_create" "css" %}
+    {% render_bundle partitial_page.partitial_bundle_name "css" %}
     {{ block.super }}
-    {% render_bundle "userarea_device_create" "js" %}
+    {% render_bundle partitial_page.partitial_bundle_name "js" %}
 {% endblock %}

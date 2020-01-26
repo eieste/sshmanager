@@ -5,17 +5,18 @@ from django.views.generic import CreateView, DeleteView, ListView
 from partitialajax.mixin import PartitialAjaxMixin, DeletePartitialAjaxMixin, ListPartitialAjaxMixin, CreatePartitialAjaxMixin
 from userarea.forms import DeviceCreateForm
 from userarea.models import Device
+from django.utils.translation import pgettext
+from sshock.contrib.mixins import PartitialFormMixin
 
 
-class DeviceCreateView(LoginRequiredMixin, CreatePartitialAjaxMixin, CreateView):
-    template_name = "userarea/device/create.html"
+class DeviceCreateView(LoginRequiredMixin, PartitialFormMixin, CreatePartitialAjaxMixin, CreateView):
     model = Device
     form_class = DeviceCreateForm
     success_url = reverse_lazy("userarea:device:list")
-
-    partitial_list = {
-        ".modal-content": "userarea/device/partitial/create.html"
-    }
+    partitial_form_url = reverse_lazy("userarea:device:create")
+    partitial_bundle_name = "userarea_device_create"
+    partitial_form_title = pgettext("Modal Title", "Create Device")
+    partitial_cancel_url = reverse_lazy("userarea:device:list")
 
     def form_valid(self, form):
         form.instance.created_by = self.request.user
@@ -24,13 +25,13 @@ class DeviceCreateView(LoginRequiredMixin, CreatePartitialAjaxMixin, CreateView)
         return super(DeviceCreateView, self).form_valid(form)
 
 
-class DeviceDeleteView(LoginRequiredMixin, DeletePartitialAjaxMixin, DeleteView):
-    template_name = "userarea/device/delete.html"
+class DeviceDeleteView(LoginRequiredMixin, PartitialFormMixin, DeletePartitialAjaxMixin, DeleteView):
     model = Device
     success_url = reverse_lazy("userarea:device:list")
-    partitial_list = {
-        ".modal-content": "userarea/device/partitial/delete.html"
-    }
+    partitial_singleobject_form_url = "userarea:device:delete"
+    partitial_bundle_name = "userarea_device_delete"
+    partitial_form_title = pgettext("Modal Title", "Delete Device")
+    partitial_cancel_url = reverse_lazy("userarea:device:list")
 
 
 class DeviceListView(LoginRequiredMixin, ListPartitialAjaxMixin, ListView):

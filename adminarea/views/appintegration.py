@@ -4,6 +4,8 @@ from partitialajax.mixin import ListPartitialAjaxMixin, CreatePartitialAjaxMixin
 from django.views.generic import ListView, CreateView, DeleteView, DetailView
 from adminarea.models import AppIntegration
 from adminarea.forms import AppIntegrationForm
+from django.utils.translation import pgettext
+from sshock.contrib.mixins import PartitialFormMixin
 
 
 class AppIntegrationListView(LoginRequiredMixin, ListPartitialAjaxMixin, ListView):
@@ -14,13 +16,12 @@ class AppIntegrationListView(LoginRequiredMixin, ListPartitialAjaxMixin, ListVie
     }
 
 
-class AppIntegrationCreateView(LoginRequiredMixin, CreatePartitialAjaxMixin, CreateView):
-    template_name = "adminarea/appintegration/create.html"
+class AppIntegrationCreateView(LoginRequiredMixin, PartitialFormMixin, CreatePartitialAjaxMixin, CreateView):
     form_class = AppIntegrationForm
-    #permission_required = ("adminarea.add_appintegration",)
-    partitial_list = {
-        ".modal-content": "adminarea/appintegration/partitial/create.html",
-    }
+    partitial_form_url = reverse_lazy("adminarea:appintegration:create")
+    partitial_bundle_name = "adminarea_appintegration_create"
+    partitial_form_title = pgettext("Modal Title", "Create App-Integration")
+    partitial_cancel_url = reverse_lazy("adminarea:appintegration:list")
 
     def get_success_url(self):
         return reverse_lazy("adminarea:appintegration:detail", kwargs={"pk": self.object.pk})
@@ -31,16 +32,17 @@ class AppIntegrationCreateView(LoginRequiredMixin, CreatePartitialAjaxMixin, Cre
         return super(AppIntegrationCreateView, self).form_valid(form)
 
 
-
-class AppIntegrationDeleteView(LoginRequiredMixin, DeletePartitialAjaxMixin, DeleteView):
-    template_name = "adminarea/appintegration/delete.html"
+class AppIntegrationDeleteView(LoginRequiredMixin, PartitialFormMixin, DeletePartitialAjaxMixin, DeleteView):
     model = AppIntegration
-    partitial_list = {
-        ".modal-content": "adminarea/appintegration/partitial/delete.html"
-    }
+    partitial_form_url = reverse_lazy("adminarea:appintegration:delete")
+    partitial_bundle_name = "adminarea_appintegration_delete"
+    partitial_form_title = pgettext("Modal Title", "Delete App-Integration")
+    partitial_cancel_url = reverse_lazy("adminarea:appintegration:list")
+
 
     def get_success_url(self):
         return reverse_lazy("adminarea:appintegration:list")
+
 
 class AppIntegrationDetailView(LoginRequiredMixin, DetailView):
     template_name = "adminarea/appintegration/detail.html"

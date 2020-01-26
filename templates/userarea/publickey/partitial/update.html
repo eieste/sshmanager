@@ -1,0 +1,21 @@
+{% load i18n %}
+{% load bootstrap4 %}
+
+
+<div class="modal-header">
+    <h4 class="modal-title">{% trans "Public Key Detail" %}</h4>
+</div>
+<div class="modal-body">
+
+    {{ object }}
+
+
+</div>
+
+<div class="modal-footer">
+    <form method="POST" action="{% url "userarea:publickey:delete" object.pk %}">
+        {% csrf_token %}
+        <a href="{% url "userarea:publickey:list" %}" class="btn btn-default pull-left" data-dismiss="modal">{% trans "Cancle" context "Publickey Delete Cancle button "%}</a>
+        <button type="submit" class="btn btn-danger">{% trans "Delete" context "Publickey delete Button" %}</button>
+    </form>
+</div>

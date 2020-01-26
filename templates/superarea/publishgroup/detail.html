@@ -1,6 +1,8 @@
 {% extends "sshock/page.html" %}
 {% load i18n %}
 {% load bootstrap4 %}
+{% load render_bundle from webpack_loader %}
+{% load partitialajax %}
 
 
 {% block content_title %}
@@ -19,10 +21,10 @@
                         {% csrf_token %}
 
                         {{ user_assign_form.errors }}
-                        {{ oauth_assign_form.errors }}
+                        {{ appintegration_assign_form.errors }}
 
                         {% bootstrap_form user_assign_form %}
-                        {% bootstrap_form oauth2_assign_form %}
+                        {% bootstrap_form appintegration_assign_form %}
 
                         <input type="submit" name="key_group_assign">
                     </form>
@@ -32,3 +34,10 @@
         </div>
     </div>
 {% endblock %}
+
+{% block body_inner %}
+    {% render_bundle "superarea_publishgroup_detail" "css" %}
+    {{ block.super }}
+    {% render_bundle "superarea_publishgroup_detail" "js" %}
+    {% include "sshock/components/modal/index.html" %}
+{% endblock %}" %}

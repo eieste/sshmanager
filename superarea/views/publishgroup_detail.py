@@ -1,9 +1,10 @@
 from django.shortcuts import render
 from django.views.generic import ListView, CreateView, DetailView, FormView
-from publish.models import PublishGroup, PublishGroupToKeyGroup, UserToPublishGroup, OAuth2Integration, OAuth2IntegrationToPublishGroup
-from account.models import KeyGroup
+from superarea.models import PublishGroup, PublishGroupToKeyGroup, UserToPublishGroup
+from adminarea.models import AppIntegration, AppIntegrationToPublishGroup
+from userarea.models import KeyGroup
 from django.urls import reverse_lazy
-from publish.forms import PublishGroupToKeyGroupForm, UserToPublishGroupForm, OAuth2IntegrationToPublishGroupForm
+from superarea.forms import PublishGroupToKeyGroupForm, UserToPublishGroupForm, AppIntegrationToPublishGroupForm
 from sshock.contrib import get_master_user
 from django.forms import formset_factory
 from django.shortcuts import redirect
@@ -49,25 +50,26 @@ class UserAssignExtension:
             UserToPublishGroup.objects.get_or_create(group=group, publish_group=self.object, user=None, defaults={"created_by": self.request.user})
 
 
-class OAuth2AssignExtension:
+class AppIntegrationAssignExtension:
 
-    def get_oauth2_assign_form(self):
+    def get_appintegration_assign_form(self):
         args = ()
         if self.request.method == "POST":
             args = (self.request.POST,)
 
-        form = OAuth2IntegrationToPublishGroupForm(*args, initial={
-            "appintegration": OAuth2IntegrationToPublishGroup.objects.filter(publish_group=self.object).values_list("app_integration", flat=True),
+        form = AppIntegrationToPublishGroupForm(*args, initial={
+            "app_integration": AppIntegrationToPublishGroup.objects.filter(publish_group=self.object).values_list("app_integration", flat=True),
         })
+
         # .filter(created_by__in=[self.request.user, get_master_user()]).values_list("oauth2_integration__display_name", flat=True),
-        form.fields['appintegration'].queryset = OAuth2Integration.objects.filter(created_by__in=[self.request.user, get_master_user()]) # [(1, "asdf"), (2, "sjg")]
+        form.fields['app_integration'].queryset = AppIntegration.filter_by_visibility(self.request) # )objects.filter(created_by__in=[self.request.user]) # [(1, "asdf"), (2, "sjg")]
 
         if self.request.method == "POST":
             form.is_valid()
 
         return form
 
-    def oauth2_assign_form_valid(self, form):
+    def appintegration_assign_form_valid(self, form):
         oauth2integrations = form.cleaned_data.get("appintegration", [])
 
         # print(self.object.oauth2integrationtopublishgroup_set.all())
@@ -77,18 +79,19 @@ class OAuth2AssignExtension:
                 dbitem.delete()
 
         for oauth2integration in oauth2integrations:
-            OAuth2IntegrationToPublishGroup.objects.get_or_create(oauth2_integration=oauth2integration, publish_group=self.object, defaults={"created_by": self.request.user})
+            AppIntegration.objects.get_or_create(oauth2_integration=oauth2integration, publish_group=self.object, defaults={"created_by": self.request.user})
 
 
-class PublishGroupDetailView(LoginRequiredMixin, DetailView, UserAssignExtension, OAuth2AssignExtension):
-    template_name = "publish/../../templates/superarea/publishgroup/detail.html"
+class PublishGroupDetailView(LoginRequiredMixin, DetailView, UserAssignExtension, AppIntegrationAssignExtension):
+    template_name = "superarea/publishgroup/detail.html"
     model = PublishGroup
-    form_list = ["user_assign_form", "oauth2_assign_form"]
+    form_list = ["user_assign_form", "appintegration_assign_form"]
 
     def get_context_data(self, **kwargs):
         ctx = super(PublishGroupDetailView, self).get_context_data(**kwargs)
         for formname in self.form_list:
             ctx[formname] = getattr(self, f"get_{formname}")()
+        print(ctx)
         return ctx
 
     def post(self, *args, **kwargs):
@@ -107,4 +110,4 @@ class PublishGroupDetailView(LoginRequiredMixin, DetailView, UserAssignExtension
             if not every_form_valid:
                 return self.get(*args, **kwargs)
         else:
-            return redirect("publish:publishgroup:list")
+            return redirect("userarea:publishgroup:list")

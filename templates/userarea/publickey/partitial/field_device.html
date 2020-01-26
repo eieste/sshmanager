@@ -1,0 +1,15 @@
+{% load i18n %}
+{% load render_bundle from webpack_loader %}
+{% load bootstrap4 %}
+{% load partitialajax %}
+
+
+<div class="input-group mb-3">
+    <div class="input-group-prepend">
+        <a class="btn btn-outline-secondary device-create-button" href="{% url "userarea:device:create" %}" data-toggle="modal" data-target="#baseModal">
+            {% trans "Neu Erstellen" %}
+        </a>
+    </div>
+    {% bootstrap_field form.device show_label=False form_group_class="" %}
+</div>
+

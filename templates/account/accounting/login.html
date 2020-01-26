@@ -17,9 +17,7 @@
             <p class="login-card-msg">Sign in to start your session</p>
             <form action="" method="post">
               {% csrf_token %}
-                {{ form.error }}
                 {{ form.errors }}
-                {{ form.error_list }}
               <div class="form-group has-feedback">
                 <input type="text" class="form-control" placeholder="{% trans "Username" %}" id="{{ form.username.id_for_label }}" name="{{ form.username.name }}">
                 <span class="glyphicon glyphicon-envelope form-control-feedback"></span>

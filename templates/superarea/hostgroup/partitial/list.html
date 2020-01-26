@@ -1,0 +1,19 @@
+{% load i18n %}
+
+{% for hostgroup in object_list %}
+    <tr>
+        <td>{{ hostgroup.display_name }} - {{ hostgroup.url }}</td>
+        <td>
+
+            <div class="btn-group btn-group-sm">
+                <a href="{% url "superarea:hostgroup:delete" hostgroup.pk %}" class="btn btn-danger hostgroup-delete-button"><i class="fas fa-trash"></i></a>
+            </div>
+        </td>
+    </tr>
+{% empty %}
+    <tr>
+        <td colspan="2">
+            {% trans "Keine Hostgroup eingetragen" %}
+        </td>
+    </tr>
+{% endfor %}

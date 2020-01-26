@@ -4,7 +4,7 @@ from django.utils.text import slugify
 
 
 class OrganizationAdmin(admin.ModelAdmin):
-    list_display = ("display_name", "name", "created_by")
+    list_display = ("display_name", "name")
     fields = ("display_name",)
 
     def save_model(self, request, obj, form, change):

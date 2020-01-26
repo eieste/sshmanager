@@ -5,7 +5,7 @@ from django.conf import settings
 from django.contrib.sites.shortcuts import get_current_site
 from django.db import models
 from django.http import HttpResponseRedirect
-from sshock.models import LinkedToMeta
+from sshock.models import EntryMeta, VisibilityMeta
 
 from superarea.models import PublishGroup
 
@@ -19,7 +19,7 @@ APP_INTEGRATIONS = [
 ]
 
 
-class AppIntegration(LinkedToMeta, models.Model):
+class AppIntegration(EntryMeta, VisibilityMeta, models.Model):
     platform = models.CharField(max_length=255, choices=APP_INTEGRATIONS)
 
     display_name = models.CharField(max_length=255)
@@ -34,6 +34,7 @@ class AppIntegration(LinkedToMeta, models.Model):
     #: Application URL / API Endpoint
     url = models.URLField(blank=True, null=True)
 
+    global_visibility = models.BooleanField(default=False)
     active = models.BooleanField(default=True)
 
     def __str__(self):
@@ -62,10 +63,9 @@ class AppIntegration(LinkedToMeta, models.Model):
         pass
 
 
-class AppIntegrationToPublishGroup(models.Model):
+class AppIntegrationToPublishGroup(EntryMeta, models.Model):
     app_integration = models.ForeignKey(AppIntegration, on_delete=models.CASCADE)
     publish_group = models.ForeignKey(PublishGroup, on_delete=models.CASCADE)
-    created_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.DO_NOTHING)
 
     class Meta:
         unique_together = ("app_integration", "publish_group")
@@ -74,8 +74,6 @@ class AppIntegrationToPublishGroup(models.Model):
 class Organization(models.Model):
     display_name = models.CharField(max_length=255)
     name = models.CharField(max_length=255, unique=True)
-    created_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="created_by")
-    created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
         return f"{self.pk}: {self.display_name}"

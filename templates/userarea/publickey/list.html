@@ -3,6 +3,7 @@
 {% load partitialajax %}
 {% load render_bundle from webpack_loader %}
 
+
 {% block content_title %}
     <h1>{% trans "Public Key" %}</h1>
 {% endblock %}
@@ -26,7 +27,7 @@
                             erforderlichen Geräte und Applikationen zu verteilen.
                         {% endblocktrans %}
                     </p>
-                    <a class="btn btn-primary" href="{% url "userarea:publickey:create" %}" id="publickey-create-button" data-toggle="modal" data-target="#baseModal" data-partitial-url="{% url "userarea:publickey:create" %}">
+                    <a class="btn btn-primary" href="{% url "userarea:publickey:create" %}" id="publickey-create-button">
                         {% trans "Add a Public Key" context "Add Public Key button" %}
                     </a>
                 </div>
