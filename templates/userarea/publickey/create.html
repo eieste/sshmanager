@@ -18,13 +18,18 @@
 
     <div class="row">
         <div class="col-md-12">
-            <div class="card">
+            <form action="" method="POST" class="card">
+                {% csrf_token %}
                 <div class="card-header">
                     <h3 class="card-title">{% trans "SSH Public Key Liste" context "Publish SSH-Key Liste Headline" %}</h3>
                 </div>
+                <div class="card-content">
                     {% direct_partitial ".card-body#publickey-create-partitial"  %}
-            </div>
-                <!-- /.card-body -->
+                </div>
+                <div class="card-footer">
+                    <input type="submit" class="btn btn-primary">
+                </div>
+            </form>
         </div>
     </div>
 {% endblock %}

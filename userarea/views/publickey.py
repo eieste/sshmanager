@@ -36,13 +36,14 @@ class PublicKeyCreateView(LoginRequiredMixin, CreatePartitialAjaxMixin, CreateVi
     template_name = "userarea/publickey/create.html"
     partitial_list = {
         "#publickey-create-device-field": "userarea/publickey/partitial/field_device.html",
+        "#publickey-create-key-group-field": "userarea/publickey/partitial/field_key_group.html",
         ".card-body#publickey-create-partitial": "userarea/publickey/partitial/create.html",
 
     }
 
     def get_form(self, form_class=None):
         form = super(PublicKeyCreateView, self).get_form(form_class)
-        form.fields["key_groups"].queryset = KeyGroup.objects.filter(created_by=self.request.user)
+        form.fields["key_group"].queryset = KeyGroup.objects.filter(created_by=self.request.user)
         return form
 
     def form_valid(self, form):

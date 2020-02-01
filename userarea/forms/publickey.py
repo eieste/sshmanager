@@ -8,7 +8,7 @@ from django_ace import AceWidget
 
 
 class PublicKeyCreateForm(forms.ModelForm):
-    key_groups = forms.ModelMultipleChoiceField(queryset=KeyGroup.objects.none(), required=False)
+    key_group = forms.ModelMultipleChoiceField(queryset=KeyGroup.objects.none(), required=False)
 
 
     class Meta:

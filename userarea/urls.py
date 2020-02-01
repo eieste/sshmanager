@@ -7,14 +7,14 @@ from django.urls import path, include
 
 app_name = "userarea"
 
-publickey_urlpattern = ([
+public_key_urlpattern = ([
     path("list", PublicKeyListView.as_view(), name="list"),
     path("create", PublicKeyCreateView.as_view(), name="create"),
     path("detail/<pk>", PublicKeyDetailView.as_view(), name="detail"),
     path("delete/<pk>", PublicKeyDeleteView.as_view(), name="delete"),
 ], "publickey")
 
-keygroup_urlpattern = ([
+key_group_urlpattern = ([
     path("list", KeyGroupListView.as_view(), name="list"),
     path("create", KeyGroupCreateView.as_view(), name="create"),
     path("update/<pk>/", KeyGroupUpdateView.as_view(), name="update"),
@@ -29,7 +29,7 @@ device_urlpattern = ([
 
 
 urlpatterns = [
-    path("publickey/", include(publickey_urlpattern, namespace="publickey"), name="publickey"),
-    path("keygroup/", include(keygroup_urlpattern, namespace="keygroup")),
+    path("public-key/", include(public_key_urlpattern, namespace="public_key"), name="public_key"),
+    path("key-group/", include(key_group_urlpattern, namespace="key_group")),
     path("device/", include(device_urlpattern, namespace="device"))
 ]

@@ -3,11 +3,14 @@
 {% load bootstrap4 %}
 {% load partitialajax %}
 
+
 {% bootstrap_field form.name %}
 
 {% bootstrap_field form.ssh_public_key %}
 
 {% direct_partitial "#publickey-create-device-field" allowedElements="self" %}
+
+{% direct_partitial "#publickey-create-key-group-field" allowedElements="self" %}
 
 
 {% comment %}
