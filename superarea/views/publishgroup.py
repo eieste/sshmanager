@@ -15,7 +15,6 @@ class PublishGroupCreateView(LoginRequiredMixin, PartitialFormMixin, CreateParti
     partitial_form_title = pgettext("Modal Title", "Create Publishgroup")
     partitial_cancel_url = reverse_lazy("superarea:publishgroup:create")
 
-
     def get_success_url(self):
         return reverse_lazy("superarea:publishgroup:detail", args=[self.object.pk])
 

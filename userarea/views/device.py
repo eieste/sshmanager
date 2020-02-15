@@ -34,6 +34,8 @@ class DeviceDeleteView(LoginRequiredMixin, PartitialFormMixin, DeletePartitialAj
     partitial_cancel_url = reverse_lazy("userarea:device:list")
 
 
+
+
 class DeviceListView(LoginRequiredMixin, ListPartitialAjaxMixin, ListView):
     model = Device
     template_name = "userarea/device/list.html"

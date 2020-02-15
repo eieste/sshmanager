@@ -7,6 +7,7 @@
   "dependencies": {
     "admin-lte": "^3.0.1",
     "bootstrap": "^4.4.1",
+    "bootstrap-select": "^1.13.12",
     "bs4-toast": "^0.7.1",
     "django-partitialajax": "^0.1.6",
     "flot": "^4.1.1",
@@ -16,6 +17,7 @@
     "popper.js": "^1.16.0"
   },
   "devDependencies": {
+    "copy-webpack-plugin": "^5.1.1",
     "css-loader": "^3.4.0",
     "file-loader": "^4.3.0",
     "mini-css-extract-plugin": "^0.8.2",

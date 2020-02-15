@@ -25,7 +25,7 @@ from django.http import HttpResponse, HttpResponseRedirect
 import json
 import urllib.parse
 import requests
-
+from sshock.views import ToastMessageJSView
 #
 # def get_authorization(request):
 #     git = OAuth2Integration.objects.first()
@@ -72,7 +72,8 @@ urlpatterns = [
     path('user/', include("userarea.urls", namespace="userarea")),
     path('', AccountDashboard.as_view(), name="account_dashboard"),
     path('impersonate/', include('impersonate.urls')),
-    path('i18n/', JavaScriptCatalog.as_view(), name="javascript_catalog")
+    path('i18n/', JavaScriptCatalog.as_view(), name="javascript_catalog"),
+    path('messages/', ToastMessageJSView.as_view(), name="toast_message")
     #path("oauth/authorize", authorizeuser_view, name="oauth_authorizeuser"),
     #path('oauth/redirect', get_authorization),
     #path('oauth', auth_user)

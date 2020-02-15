@@ -10,7 +10,7 @@
         <td><code>{{ key.fingerprint }}</code></td>
         <td>
             <div class="btn-group btn-group-sm">
-                <a href="{% url "userarea:publickey:detail" key.pk %}" class="btn btn-info publickey-detail-button"><i class="fas fa-eye"></i></a>
+                <a href="{% url "userarea:publickey:update" key.pk %}" class="btn btn-info publickey-detail-button"><i class="fas fa-eye"></i></a>
                 <a href="{% url "userarea:publickey:delete" key.pk %}" class="btn btn-danger publickey-delete-button"><i class="fas fa-trash"></i></a>
             </div>
         </td>

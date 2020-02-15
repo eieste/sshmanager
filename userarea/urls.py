@@ -1,8 +1,7 @@
 from userarea.views import KeyGroupCreateView, KeyGroupUpdateView, KeyGroupDeleteView, KeyGroupListView
 from django.urls import path, include
-
 from userarea.views.device import DeviceCreateView, DeviceDeleteView, DeviceListView
-from userarea.views.publickey import PublicKeyListView, PublicKeyCreateView, PublicKeyDetailView, PublicKeyDeleteView
+from userarea.views.publickey import PublicKeyListView, PublicKeyCreateView, PublicKeyUpdateView, PublicKeyDeleteView
 from django.urls import path, include
 
 app_name = "userarea"
@@ -10,7 +9,7 @@ app_name = "userarea"
 public_key_urlpattern = ([
     path("list", PublicKeyListView.as_view(), name="list"),
     path("create", PublicKeyCreateView.as_view(), name="create"),
-    path("detail/<pk>", PublicKeyDetailView.as_view(), name="detail"),
+    path("update/<pk>", PublicKeyUpdateView.as_view(), name="update"),
     path("delete/<pk>", PublicKeyDeleteView.as_view(), name="delete"),
 ], "publickey")
 

@@ -1,11 +1,8 @@
 from django.contrib import admin
 from sshock.models import Configuration
 from sshock.forms import ConfigurationForm
-# Register your models here.
-
-
-def get_val(*args, **kwargs):
-    return "bu"
+from django.contrib.admin import AdminSite
+from django.utils.translation import ugettext_lazy
 
 
 class ConfigurationAdmin(admin.ModelAdmin):
@@ -19,3 +16,8 @@ class ConfigurationAdmin(admin.ModelAdmin):
 
 
 admin.site.register(Configuration, ConfigurationAdmin)
+
+
+admin.site.site_title = ugettext_lazy('SSHock Admin')
+admin.site.site_header = ugettext_lazy('SSHock Admin')
+admin.site.index_title = ugettext_lazy('SSHock Admin')

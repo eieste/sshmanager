@@ -4,6 +4,8 @@
 
 {% block body_inner %}
 
+{% include "sshock/components/jsconfig/config.html" %}
+
 
 {% if user.is_impersonate %}
     <div class="alert alert-danger my-0 rounded-0">
@@ -21,21 +23,6 @@ like these sweet mornings of spring which I enjoy with my whole heart.</p>
 
 -->
 
-{% if messages %}
-    <div id="toastsContainerTopRight" class="pr-2 pt-2 toasts-top-right fixed">
-        {% for message in messages %}
-            <div class="toast {{ message.tags }} fade show" role="alert" aria-live="assertive" aria-atomic="true">
-                <div class="toast-header">
-                    <strong class="mr-auto">{% trans "Error" context "Toast/Noticication headline" %}</strong>
-                </div>
-                <div class="toast-body">
-                    {{ message|safe }}
-                </div>
-            </div>
-        {% endfor %}
-    </div>
-{% endif %}
-
 <!-- Site wrapper -->
 <div class="wrapper">
     {% block outer_topnavbar%}
@@ -47,29 +34,21 @@ like these sweet mornings of spring which I enjoy with my whole heart.</p>
     {% endblock%}
 
     <aside class="main-sidebar sidebar-dark-primary elevation-4">
-        <a href="{% url "account_dashboard" %}" class="brand-link">
-            <!-- <img src="{% static "missing.jpg" %}"
-            alt="AdminLTE Logo"
-            class="brand-image img-circle elevation-3"
-            style="opacity: .8"> -->
-            <span class="brand-text font-weight-light">{% trans "sshOCK" %}</span>
+        <a href="{% url "userarea:public_key:list" %}" class="brand-link">
+            <img src="{% static "assets/images/sshock_logo_white.svg" %}" width="100%" alt="SSHock SVG">
         </a>
+        <div class="sidebar">
 
-      <div class="sidebar">
+            {% block sidebar_user %}
+                {% include "sshock/components/sidebar_user/index.html" %}
+            {% endblock %}
 
-        {% block sidebar_user %}
-          {% include "sshock/components/sidebar_user/index.html" %}
-        {% endblock %}
-
-      <!-- Sidebar Menu -->
-        <nav class="mt-2">
-          {% block sidebar_menu %}
-            {% include "sshock/components/sidebar_menu/index.html" %}
-          {% endblock %}
-        </nav>
-      <!-- /.sidebar-menu -->
-      </div>
-    <!-- /.sidebar -->
+            <nav class="mt-2">
+                {% block sidebar_menu %}
+                        {% include "sshock/components/sidebar_menu/index.html" %}
+                {% endblock %}
+            </nav>
+        </div>
     </aside>
 
 {% block outer_page %}

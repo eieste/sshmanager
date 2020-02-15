@@ -10,12 +10,12 @@ from django.urls import reverse_lazy
 from django.views.generic import CreateView
 from django.views.generic import ListView, DetailView, DeleteView, FormView, UpdateView
 from partitialajax.mixin import ListPartitialAjaxMixin, CreatePartitialAjaxMixin, DeletePartitialAjaxMixin, DetailPartitialAjaxMixin, UpdatePartitialAjaxMixin
-from userarea.forms import PublicKeyCreateForm, AssignKeyGroupToPublicKeyForm
+from userarea.forms import PublicKeyCreateForm, AssignKeyGroupToPublicKeyForm, PublicKeyUpdateForm
 from userarea.models import KeyGroup, PublicKey, PublicKeyToKeyGroup
 from sshock.contrib import get_master_user
 from sshock.contrib.mixins import PartitialFormMixin
 from django.utils.translation import pgettext
-
+from django.http import HttpResponseRedirect
 
 class PublicKeyListView(LoginRequiredMixin, ListPartitialAjaxMixin, ListView):
     template_name = "userarea/publickey/list.html"
@@ -33,12 +33,11 @@ class PublicKeyCreateView(LoginRequiredMixin, CreatePartitialAjaxMixin, CreateVi
     model = PublicKey
     form_class = PublicKeyCreateForm
     success_url = reverse_lazy("userarea:publickey:list")
-    template_name = "userarea/publickey/create.html"
+    template_name = "userarea/publickey/form.html"
     partitial_list = {
         "#publickey-create-device-field": "userarea/publickey/partitial/field_device.html",
         "#publickey-create-key-group-field": "userarea/publickey/partitial/field_key_group.html",
-        ".card-body#publickey-create-partitial": "userarea/publickey/partitial/create.html",
-
+        ".card-body#publickey-form-partitial": "userarea/publickey/partitial/create.html",
     }
 
     def get_form(self, form_class=None):
@@ -58,10 +57,10 @@ class PublicKeyCreateView(LoginRequiredMixin, CreatePartitialAjaxMixin, CreateVi
         form.instance.fingerprint = f"{key.size_in_bits()} SHA265: {openssh_fingerprint}"
         self.object = form.save()
 
-        for relation in form.cleaned_data["key_groups"]:
+        for relation in form.cleaned_data["key_group"]:
             PublicKeyToKeyGroup.objects.create(key_group=relation, public_key=self.object)
 
-        return self.get_success_url()
+        return HttpResponseRedirect(self.get_success_url())
 
     def post(self, request, *args, **kwargs):
         try:
@@ -73,14 +72,32 @@ class PublicKeyCreateView(LoginRequiredMixin, CreatePartitialAjaxMixin, CreateVi
             return self.render_to_response(context=self.get_context_data())
 
 
-class PublicKeyDetailView(LoginRequiredMixin, UpdatePartitialAjaxMixin, UpdateView):
+class PublicKeyUpdateView(LoginRequiredMixin, UpdatePartitialAjaxMixin, UpdateView):
     template_name = "userarea/publickey/update.html"
     model = PublicKey
-    fields = ("name", )
+    form_class = PublicKeyUpdateForm
+    #fields = ("name", "device", "key_group")
     partitial_list = {
+        "#publickey-create-device-field": "userarea/publickey/partitial/field_device.html",
+        "#publickey-create-key-group-field": "userarea/publickey/partitial/field_key_group.html",
         ".modal-content": "userarea/publickey/partitial/update.html"
     }
 
+    def form_valid(self, form):
+        result = super().form_valid(form)
+        messages.add_message(self.request, messages.SUCCESS,
+                             pgettext("Publickey Update Success message", "This public key information was successfully changed "))
+
+        return result
+
+    def get_success_url(self):
+        return reverse_lazy("userarea:public_key:update", kwargs={"pk": self.object.pk})
+
+    def get_form(self, form_class=None):
+        form = super(PublicKeyUpdateView, self).get_form(form_class)
+        form.fields["key_group"].queryset = KeyGroup.objects.filter(created_by=self.request.user)
+        form.fields["key_group"].initial = self.object.publickeytokeygroup_set.values_list("key_group", flat=True)
+        return form
 
 class PublicKeyDeleteView(LoginRequiredMixin, PartitialFormMixin, DeletePartitialAjaxMixin, DeleteView):
     model = PublicKey

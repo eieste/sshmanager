@@ -4,12 +4,20 @@
 {% load partitialajax %}
 
 
-<div class="input-group mb-3">
-    <div class="input-group-prepend">
-        <a class="btn btn-outline-secondary userarea-key-group-create-button" href="{% url "userarea:key_group:create" %}" data-toggle="modal" data-target="#baseModal">
-            {% trans "Neu Erstellen" %}
-        </a>
+{% render_bundle "userarea_publickey_form_field_key_group" "css" %}
+
+
+<div class="form-group">
+    {% bootstrap_label form.key_group.label %}
+
+    <div class="input-group mb-3">
+        <div class="input-group-prepend">
+            <a class="btn btn-outline-secondary userarea-key-group-create-button" href="{% url "userarea:key_group:create" %}" data-toggle="modal" data-target="#baseModal">
+                {% trans "Neu Erstellen" %}
+            </a>
+        </div>
+        {{ form.key_group }}
     </div>
-    {% bootstrap_field form.key_group show_label=False form_group_class="" %}
 </div>
 
+{% render_bundle "userarea_publickey_form_field_key_group" "js" %}

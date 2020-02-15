@@ -3,6 +3,21 @@ import $ from "jquery";
 import sendForm from "./formModal";
 import {getCookie} from "../../../partitialajax/src/js/contrib";
 
+function userNotifyWrapper(data){
+
+    PartitialAjax.handleTextData({options:{
+        textEventCallback: function(msg){
+            $.toast({ ...msg,
+                delay: 3000
+            });
+        }
+    }}, data);
+}
+
+
+
+
+
 /**
  * Setup Crud Interface (Create Update Delete)
  * @param list_partitial Partitial Object of list
@@ -64,10 +79,42 @@ function setupCrud(list_partitial, create_partitial, delete_button_selector, det
     }
 
     function registerDeleteButton(list_element){
+
+
+
+
        $(list_element).find(delete_button_selector).on("click", function(event){
             let url = $(this).attr("href");
-            subModal(url);
             event.preventDefault();
+
+            if(event.shiftKey){
+
+                fetch(url)
+                    .then((data)=>{
+                        let token = $(data).find("[name=csrfmiddlewaretoken]").val();
+
+
+                        fetch(url+"?is-ajax", {
+                            method: "POST",
+                            headers: {
+                                "X-CSRFToken": getCookie("csrftoken")
+                            }
+                        }).then( (response)=> response.json())
+                            .then((data) => {
+                            userNotifyWrapper(data);
+                            list_partitial.getFromRemote();
+                        }).catch((i) => {
+                            $.toast({
+                              title: gettext("Internal Error"),
+                              content: gettext("This request could be satisfied"),
+                              type: 'error',
+                              delay: 3000,
+                            });
+                        });
+                    });
+            }else{
+                subModal(url);
+            }
        });
     }
 
@@ -95,6 +142,7 @@ function setupCrud(list_partitial, create_partitial, delete_button_selector, det
 
     create_partitial.register("onHandeldRemoteData", function(option){
         $(option.partitial_ajax.options.element).find("[type=submit]").on("click", function(e){
+
             $.ajax({
                 type: 'POST',
                 url: $(option.partitial_ajax.options.element).find("form").attr("action"),
@@ -105,6 +153,8 @@ function setupCrud(list_partitial, create_partitial, delete_button_selector, det
                 success: function(response) {
                     $(option.partitial_ajax.options.element).modal('hide');
                     list_partitial.getFromRemote();
+                    console.log(response);
+                    userNotifyWrapper(response);
                 },
                 error: function(){
                     $.toast({

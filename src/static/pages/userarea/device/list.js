@@ -1,6 +1,7 @@
 import "../../../js/index";
 import "../../../scss/components/table.scss";
 import PartitialAjax from "django-partitialajax";
+import partitial_settings from "django-partitialajax/js/setting";
 import setupCrud from "../../../js/crud";
 
 $(function(){

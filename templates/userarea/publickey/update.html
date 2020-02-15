@@ -1,6 +1,7 @@
 {% extends "sshock/page.html" %}
 {% load i18n %}
 {% load bootstrap4 %}
+{% load partitialajax %}
 {% load render_bundle from webpack_loader %}
 
 
@@ -22,33 +23,32 @@
             </div>
         </div>
         <div class="col-md-6">
-            <div class="card">
-                <div class="card-header">
-                    {% trans "Key Group" %}
-                    {% comment %}
-                        <div class="float-right">
-                            <a class="btn btn-success text-white" href="{% url "userarea:publickey:keygroup-assign" object.pk %}">
-                                <i class="fa fa-plus"></i>
-                            </a>
-                        </div>
-                    {% endcomment %}
-                </div>
-                <div class="card-body">
+            <form action="{% url "userarea:public_key:update" object.pk %}" method="POST">
 
-                    <ul class="list-group">
-                        {% for item in object.sshpublickeytokeygroup_set.all %}
-                            <li class="list-group-item">
-                                <a href="{% url "userarea:keygroup:detail" item.key_group.pk %}">
-                                    {{ item.key_group.display_name }}
-                                </a>
-                                <a class="float-right" href="{% url "userarea:publickey:keygroup-dissociate" item.pk %}">
-                                    {% trans "Delete" context "Removelink on Detailpage of SSH-PublicKey for KeyGroup Item" %}
-                                </a>
-                            </li>
-                        {% endfor %}
-                    </ul>
+                <div class="card">
+                    <div class="card-header">
+                        {% trans "Meta" %}
+                    </div>
+                    <div class="card-body">
+                        {% csrf_token %}
+{{ form.errors }}
+                        {% bootstrap_form_errors form %}
+
+                        {% bootstrap_field form.name %}
+                        {% direct_partitial "#publickey-create-device-field" %}
+                        {% direct_partitial "#publickey-create-key-group-field" %}
+
+                    </div>
+                    <div class="card-footer">
+                        <input type="submit" class="btn btn-primary" value="{% trans "Save changes" %}">
+
+                    </div>
+
                 </div>
-            </div>
+
+
+
+            </form>
         </div>
     </div>
 {% endblock %}

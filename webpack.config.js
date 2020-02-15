@@ -2,6 +2,7 @@ const path = require('path');
 const webpack = require("webpack");
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const BundleTracker = require("webpack-bundle-tracker");
+const CopyPlugin = require('copy-webpack-plugin');
 
 
 module.exports = {
@@ -17,6 +18,8 @@ module.exports = {
     userarea_keygroup_delete: './src/static/pages/userarea/keygroup/delete.js',
     userarea_keygroup_edit: './src/static/pages/userarea/keygroup/edit.js',
     userarea_publickey_list: './src/static/pages/userarea/publickey/list.js',
+    userarea_publickey_form: './src/static/pages/userarea/publickey/form.js',
+    userarea_publickey_form_field_key_group: './src/static/pages/userarea/publickey/field_key_group.js',
     userarea_publickey_delete: './src/static/pages/userarea/publickey/delete.js',
     userarea_publickey_update: './src/static/pages/userarea/publickey/update.js',
     userarea_publickey_create: './src/static/pages/userarea/publickey/create.js',
@@ -47,9 +50,18 @@ module.exports = {
     }),
     new webpack.ProvidePlugin({
       $: 'jquery',
-      jQuery: 'jquery',
+      jQuery: 'jquery'
     }),
-    new BundleTracker({filename: "./webpack-bundle.json"})
+    new BundleTracker({filename: "./webpack-bundle.json"}),
+    new CopyPlugin([
+      {
+        from: "src/static/assets/images/*",
+        to: "assets/images/",
+        flatten:true
+      }
+
+
+    ])
   ],
   module: {
     rules: [
