@@ -13,7 +13,7 @@
     "flot": "^4.1.1",
     "jquery": "^3.4.1",
     "mermaid": "^8.4.4",
-    "npm": "^6.13.4",
+    "npm": "^6.14.6",
     "popper.js": "^1.16.0"
   },
   "devDependencies": {
